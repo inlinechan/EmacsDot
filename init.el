@@ -688,8 +688,8 @@ vi style of % jumping to matching brace."
            (message "magit... done"))
 
      (when section-gtags (message "gtags...")
-           ;; (if (not (file-exists-p "~/usr/local/share/gtags/gtags.el"))
-           ;;     (copy-file "~/usr/local/share/gtags/gtags.el" "~/.emacs.d/el-get"))
+           (if (not (file-exists-p "~/.emacs.d/el-get/gtags.el"))
+               (url-copy-file "https://github.com/inlinechan/EmacsDot/raw/master/.emacs.d/gtags.el" "~/.emacs.d/el-get/gtags.el"))
 
            (if (require 'gtags nil 'noerror)
                (progn
