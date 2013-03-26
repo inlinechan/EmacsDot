@@ -43,7 +43,7 @@
 
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; configurations
-     (defvar section-autocomplete nil)
+     (defvar section-autocomplete t)
      (defvar section-automodehook t)
      (defvar section-cedet nil)
      (defvar section-environment t)
@@ -63,8 +63,11 @@
      ;; el-get :: now set our own packages
      (setq
       my:el-get-packages
-      '(
-        auto-complete
+      '(auto-complete
+        auto-complete-clang
+        auto-complete-css
+        auto-complete-emacs-lisp
+        auto-complete-etags
         color-theme
         flymake-cursor
         graphviz-dot-mode
@@ -547,8 +550,6 @@ vi style of % jumping to matching brace."
            (message "recentf... done"))
 
      (when section-autocomplete (message "autocomplete...")
-           (add-to-list 'load-path "~/.emacs.d/auto-complete-1.3.1")
-           (setq ac-dictionary-directories "~/.emacs.d/dict")
            (require 'auto-complete-config)
            (ac-config-default)
            (setq ac-auto-start nil)
