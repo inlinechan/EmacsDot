@@ -1,4 +1,4 @@
-n;; Copyright (C) 2013 Hyungchan Kim
+;; Copyright (C) 2013 Hyungchan Kim
 
 ;; Author: Hyungchan Kim <inlinechan@gmail.com>
 ;; Keywords: lisp
@@ -73,6 +73,7 @@ n;; Copyright (C) 2013 Hyungchan Kim
         flymake-cursor
         graphviz-dot-mode
         js2-mode
+        jquery-doc
         magit
         php-mode-improved
         popup
@@ -586,9 +587,6 @@ vi style of % jumping to matching brace."
            (add-hook 'c++-mode-hook 'my-ac-cc-mode-setup)
            (add-hook 'c-mode-common-hook 'my-ac-cc-mode-setup)
 
-           ;; javascript
-           (add-to-list 'load-path "~/.emacs.d/jquery-doc")
-           (require 'jquery-doc)
            ;; adds ac-source-jquery to the ac-sources list
            (add-hook 'js2-mode-hook 'jquery-doc-setup)
 
