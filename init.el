@@ -1,4 +1,4 @@
-;; Copyright (C) 2013 Hyungchan Kim
+n;; Copyright (C) 2013 Hyungchan Kim
 
 ;; Author: Hyungchan Kim <inlinechan@gmail.com>
 ;; Keywords: lisp
@@ -31,8 +31,9 @@
        "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
        ;; "http://localhost/~hyungchan/el-get/el-get-install.el"
        )
+    (let (el-get-master-branch)
     (goto-char (point-max))
-    (eval-print-last-sexp)))
+    (eval-print-last-sexp))))
 
 ;; now either el-get is `require'd already, or have been `load'ed by the
 ;; el-get installer.
