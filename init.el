@@ -69,6 +69,7 @@
         auto-complete-css
         auto-complete-emacs-lisp
         auto-complete-etags
+        blank-mode
         color-theme
         flymake-cursor
         graphviz-dot-mode
@@ -226,7 +227,8 @@ vi style of % jumping to matching brace."
 
            ;; blank-mode
            ;; (require 'blank-mode)
-           ;; (global-set-key (kbd "C-c b") 'blank-mode)
+           (eval-after-load 'blank-mode
+             (global-set-key (kbd "C-c b") 'blank-mode))
 
            ;; Go to the line of the file easily especially in gdb call stack.
            ;; /etc/passwd:10
