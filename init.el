@@ -379,9 +379,6 @@ vi style of % jumping to matching brace."
            ;;         (coding-system-require-warning t))
            ;;     (call-interactively 'shell)))
 
-           ;; switch h <-> cpp
-           ;; (global-set-key (kbd "M-p") 'eassist-switch-h-cpp)
-
            (global-set-key (kbd "C-c C-k") 'isearch-forward-at-point)
            (global-set-key (kbd "C-M-o") 'other-window)
 
@@ -431,7 +428,9 @@ vi style of % jumping to matching brace."
 
            (add-hook 'c++-mode-hook
                      (lambda ()
-                       (local-set-key (kbd "C-c .") 'ff-find-other-file)))
+                       ;; switch h <-> cpp
+                       ;; (local-set-key (kbd "M-p") 'eassist-switch-h-cpp)
+                       (local-set-key (kbd "M-p") 'ff-find-other-file)))
 
            (message "automodehook..."))
 
