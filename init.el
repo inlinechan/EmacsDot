@@ -59,6 +59,7 @@
      (defvar section-recentf t)
      (defvar section-shell t)
      (defvar section-ui t)
+     (defvar section-jedi t)            ;; need python-virtualenv
 
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; el-get :: now set our own packages
@@ -73,6 +74,7 @@
         color-theme
         flymake-cursor
         graphviz-dot-mode
+        jedi
         js2-mode
         jquery-doc
         magit
@@ -702,5 +704,16 @@ vi style of % jumping to matching brace."
                  (global-set-key (kbd "C-c g r") 'gtags-find-rtag)
                  (global-set-key (kbd "C-c g l") 'gtags-find-symbol)
                  (message "gtags... done"))))
+
+     (when section-jedi (message "jedi...")
+           ;; (if (require 'jedi nil 'noerror)
+           (eval-after-load 'jedi
+               (progn
+                 (setq jedi:setup-keys t)
+                 (setq jedi:key-goto-definition (kbd "C-c ."))
+                 (require 'jedi)
+                 (add-hook 'python-mode-hook 'jedi:setup)
+                 (add-hook 'python-mode-hook 'jedi:ac-setup)
+                 (message "jedi... done"))))
 
      )) ;; end of eval-after-load 'el-get
