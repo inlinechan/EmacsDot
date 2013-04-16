@@ -62,6 +62,7 @@
      (defvar section-jedi t)            ;; need python-virtualenv
      (defvar section-qml-mode t)
      (defvar section-gdb-ui t)
+     (defvar section-gnuplot-mode t)
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; el-get :: now set our own packages
      (setq
@@ -738,4 +739,14 @@ vi style of % jumping to matching brace."
 
            (require 'gdb-ui nil 'noerror)
            (message "gtags... done"))
+
+     (when section-gnuplot-mode (message "gnuplot-mode...")
+           (if (not (file-exists-p "~/.emacs.d/el-get/gnuplot-mode.el"))
+               (url-copy-file "https://raw.github.com/mkmcc/gnuplot-mode/master/gnuplot-mode.el" "~/.emacs.d/el-get/gnuplot-mode.el"))
+           (require 'gnuplot-mode)
+           (setq auto-mode-alist
+                 (append '(("\\.gp$" . gnuplot-mode)
+                           ("\\.gnu$" . gnuplot-mode))
+                         auto-mode-alist))
+           (message "gnuplot-mode... done"))
      )) ;; end of eval-after-load 'el-get
