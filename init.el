@@ -60,7 +60,7 @@
      (defvar section-shell t)
      (defvar section-ui t)
      (defvar section-jedi t)            ;; need python-virtualenv
-
+     (defvar section-qml-mode t)
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; el-get :: now set our own packages
      (setq
@@ -84,7 +84,7 @@
         pos-tip
         psvn
         qmake-mode
-        ;; qml-mode
+        qml-mode
         ))
 
      ;;
@@ -725,4 +725,9 @@ vi style of % jumping to matching brace."
                  (add-hook 'python-mode-hook 'jedi:ac-setup)
                  (message "jedi... done"))))
 
+     (when section-qml-mode (message "qml-mode...")
+           (eval-after-load 'qml-mode
+               (progn
+                 (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
+                 (message "qml-mode... done"))))
      )) ;; end of eval-after-load 'el-get
