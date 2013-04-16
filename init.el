@@ -61,6 +61,7 @@
      (defvar section-ui t)
      (defvar section-jedi t)            ;; need python-virtualenv
      (defvar section-qml-mode t)
+     (defvar section-gdb-ui t)
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; el-get :: now set our own packages
      (setq
@@ -730,4 +731,11 @@ vi style of % jumping to matching brace."
                (progn
                  (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
                  (message "qml-mode... done"))))
+
+     (when section-gdb-ui (message "gdb-ui...")
+           (if (not (file-exists-p "~/.emacs.d/el-get/gdb-ui.el"))
+               (url-copy-file "https://raw.github.com/inlinechan/gdb-ui/master/gdb-ui.el" "~/.emacs.d/el-get/gdb-ui.el"))
+
+           (require 'gdb-ui nil 'noerror)
+           (message "gtags... done"))
      )) ;; end of eval-after-load 'el-get
