@@ -718,7 +718,7 @@ vi style of % jumping to matching brace."
                  (defun global-update-incrementally () (shell-command "global -u -q")) ;; "*Messages*" "*Messages*") )
 
                  ;; Call gtags update when idle for some time
-                 (defcustom my-gtags-update-idle-time 10
+                 (defcustom my-gtags-update-idle-time 300
                    "Number of idle seconds before an incremental gtags update is launched"
                    :group 'my-group
                    :type 'integer
