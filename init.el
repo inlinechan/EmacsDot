@@ -703,7 +703,10 @@ vi style of % jumping to matching brace."
 
      (when section-gtags (message "gtags...")
            (if (not (file-exists-p "~/.emacs.d/el-get/gtags.el"))
-               (url-copy-file "https://github.com/inlinechan/EmacsDot/raw/master/.emacs.d/gtags.el" "~/.emacs.d/el-get/gtags.el"))
+               (progn 
+                 (url-copy-file "https://raw.github.com/inlinechan/EmacsDot2/raw/master/gtags.el"
+                                "~/.emacs.d/el-get/gtags.el")
+                 (byte-compile-file "~/.emacs.d/el-get/gtags.el")))
 
            (if (require 'gtags nil 'noerror)
                (progn
@@ -776,14 +779,25 @@ vi style of % jumping to matching brace."
 
      (when section-gdb-ui (message "gdb-ui...")
            (if (not (file-exists-p "~/.emacs.d/el-get/gdb-ui.el"))
-               (url-copy-file "https://raw.github.com/inlinechan/gdb-ui/master/gdb-ui.el" "~/.emacs.d/el-get/gdb-ui.el"))
+               (progn
+                 (url-copy-file "https://github.com/inlinechan/EmacsDot2/raw/master/gdb-ui.el"
+                                "~/.emacs.d/el-get/gdb-ui.el")
+                 (byte-compile-file "~/.emacs.d/el-get/gdb-ui.el")))
+           (if (not (file-exists-p "~/.emacs.d/el-get/gud.el"))
+               (progn
+                 (url-copy-file "https://github.com/inlinechan/EmacsDot2/raw/master/gud.el"
+                                "~/.emacs.d/el-get/gud.el")
+                 (byte-compile-file "~/.emacs.d/el-get/gud.el")))
 
            (require 'gdb-ui nil 'noerror)
            (message "gtags... done"))
 
      (when section-gnuplot-mode (message "gnuplot-mode...")
            (if (not (file-exists-p "~/.emacs.d/el-get/gnuplot-mode.el"))
-               (url-copy-file "https://raw.github.com/mkmcc/gnuplot-mode/master/gnuplot-mode.el" "~/.emacs.d/el-get/gnuplot-mode.el"))
+               (progn
+                 (url-copy-file "https://raw.github.com/mkmcc/gnuplot-mode/master/gnuplot-mode.el"
+                                "~/.emacs.d/el-get/gnuplot-mode.el")
+                 (byte-compile-file "~/.emacs.d/el-get/gnuplot-mode.el")))
            (require 'gnuplot-mode)
            (setq auto-mode-alist
                  (append '(("\\.gp$" . gnuplot-mode)
