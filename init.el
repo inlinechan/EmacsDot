@@ -86,7 +86,7 @@
         pos-tip
         psvn
         qmake-mode
-        qml-mode
+        ;; qml-mode
         ))
 
      ;;
@@ -772,6 +772,11 @@ vi style of % jumping to matching brace."
                  (message "jedi... done"))))
 
      (when section-qml-mode (message "qml-mode...")
+           (if (not (file-exists-p "~/.emacs.d/el-get/qml-mode.el"))
+               (progn
+                 (url-copy-file "https://raw.github.com/coldnew/qml-mode/master/qml-mode.el"
+                                "~/.emacs.d/el-get/qml-mode.el")
+                 (byte-compile-file "~/.emacs.d/el-get/qml-mode.el")))
            (eval-after-load 'qml-mode
                (progn
                  (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
