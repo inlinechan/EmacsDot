@@ -777,7 +777,8 @@ vi style of % jumping to matching brace."
                  (url-copy-file "https://raw.github.com/coldnew/qml-mode/master/qml-mode.el"
                                 "~/.emacs.d/el-get/qml-mode.el")
                  (byte-compile-file "~/.emacs.d/el-get/qml-mode.el")))
-           (eval-after-load 'qml-mode
+
+           (if (require 'qml-mode nil 'noerror)
                (progn
                  (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
                  (message "qml-mode... done"))))
