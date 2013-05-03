@@ -63,6 +63,7 @@
      (defvar section-qml-mode t)
      (defvar section-gdb-ui t)
      (defvar section-gnuplot-mode t)
+     (defvar section-gdict t)
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; el-get :: now set our own packages
      (setq
@@ -209,12 +210,6 @@ vi style of % jumping to matching brace."
                (ediff3 (buffer-file-name (nth 0 marked-files))
                        (buffer-file-name (nth 1 marked-files)) 
                        (buffer-file-name (nth 2 marked-files)))))
-
-           ;; gdict
-           ;; (add-to-list 'load-path "~/.emacs.d")
-           ;; (require 'gdict)
-           ;; (require 'json)
-           ;; (global-set-key (kbd "C-c g d") 'gdict)
 
            ;; getting git root dir
            ;; http://blog.uberweiss.net/2009/11/scoping-emacs-to-a-git-root-directory.html
@@ -810,4 +805,16 @@ vi style of % jumping to matching brace."
                            ("\\.gnu$" . gnuplot-mode))
                          auto-mode-alist))
            (message "gnuplot-mode... done"))
+
+     (when section-gdict (message "gidct...")
+           (if (not (file-exists-p "~/.emacs.d/el-get/gdict.el"))
+               (progn
+                 (url-copy-file "https://github.com/inlinechan/EmacsDot2/raw/master/gdict.el"
+                                "~/.emacs.d/el-get/gdict.el")
+                 (byte-compile-file "~/.emacs.d/el-get/gdict.el")))
+
+           (require 'gdict nil 'noerror)
+           (require 'json nil 'noerror)
+           (global-set-key (kbd "C-c g d") 'gdict)
+           (message "gdict... done"))
      )) ;; end of eval-after-load 'el-get
