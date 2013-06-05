@@ -64,6 +64,7 @@
      (defvar section-gdb-ui t)
      (defvar section-gnuplot-mode t)
      (defvar section-gdict t)
+     (defvar section-qmake-mode t)
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; el-get :: now set our own packages
      (setq
@@ -354,6 +355,7 @@ vi style of % jumping to matching brace."
      (when section-hotkey (message "hotkey...")
            ;;(global-set-key (kbd "C-c y") 'clipboard-yank)
            (global-set-key (kbd "C-c c") 'compile)
+           (global-set-key (kbd "<f9>") 'compile)
            (global-set-key (kbd "C-c r y") 'comment-region)
            (global-set-key (kbd "C-c r u") 'uncomment-region)
            (global-set-key (kbd "M-g") 'goto-line)
@@ -425,11 +427,12 @@ vi style of % jumping to matching brace."
                   '(("\\.h$"      . c++-mode))
                   auto-mode-alist))
 
-           (add-hook 'c++-mode-hook
-                     (lambda ()
-                       ;; switch h <-> cpp
-                       ;; (local-set-key (kbd "M-p") 'eassist-switch-h-cpp)
-                       (local-set-key (kbd "M-p") 'ff-find-other-file)))
+           (defun switch-header-impl()
+             "Switch between header(.h) and impl(.c or .cpp)"
+             (local-set-key (kbd "M-p") 'ff-find-other-file))
+
+           (add-hook 'c++-mode-hook 'switch-header-impl)
+           (add-hook 'c-mode-hook 'switch-header-impl)
 
            (message "automodehook..."))
 
@@ -645,7 +648,7 @@ vi style of % jumping to matching brace."
                          (if (file-exists-p (concat
                                              git-root-dir "Tools/Scripts/check-webkit-style"))
                              (list "bash" (list "flymake-check-webkit-style.sh" git-root-dir local-file))
-                           (list "clang++" (list "-fsyntax-only" "-fno-color-diagnostics" local-file)))))))
+                           (list "clang++" (list "-fsyntax-only" "-fno-color-diagnostics" temp-file)))))))
 
                  (defun flymake-clang-c++-load ()
                    (interactive)
@@ -699,7 +702,7 @@ vi style of % jumping to matching brace."
      (when section-gtags (message "gtags...")
            (if (not (file-exists-p "~/.emacs.d/el-get/gtags.el"))
                (progn 
-                 (url-copy-file "https://raw.github.com/inlinechan/EmacsDot2/raw/master/gtags.el"
+                 (url-copy-file "https://github.com/inlinechan/EmacsDot2/raw/master/gtags.el"
                                 "~/.emacs.d/el-get/gtags.el")
                  (byte-compile-file "~/.emacs.d/el-get/gtags.el")))
 
@@ -817,4 +820,13 @@ vi style of % jumping to matching brace."
            (require 'json nil 'noerror)
            (global-set-key (kbd "C-c g d") 'gdict)
            (message "gdict... done"))
+
+     (when section-qmake-mode (message "qmake-mode...")
+           (setq auto-mode-alist
+                 (append
+                  '(("\\.pro" . qmake-mode)
+                    ("\\.pri" . qmake-mode))
+                  auto-mode-alist))
+           (message "qmake-mode... done"))
+
      )) ;; end of eval-after-load 'el-get
