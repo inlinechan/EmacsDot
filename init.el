@@ -82,6 +82,7 @@
         js2-mode
         jquery-doc
         magit
+        markdown-mode
         php-mode-improved
         popup
         popup-pos-tip
