@@ -65,6 +65,7 @@
      (defvar section-gnuplot-mode t)
      (defvar section-gdict t)
      (defvar section-qmake-mode t)
+     (defvar section-yasnippet t)
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; el-get :: now set our own packages
      (setq
@@ -90,6 +91,7 @@
         pos-tip
         psvn
         qmake-mode
+        yasnippet
         ;; qml-mode
         ))
 
@@ -828,5 +830,11 @@ vi style of % jumping to matching brace."
                     ("\\.pri" . qmake-mode))
                   auto-mode-alist))
            (message "qmake-mode... done"))
+
+     (when section-yasnippet (message "yasnippet...")
+           (add-to-list 'load-path "~/.emacs.d/el-get/yasnippet")
+           (require 'yasnippet)
+           (yas-global-mode 1)
+           (message "section-yasnippet... done"))
 
      )) ;; end of eval-after-load 'el-get
