@@ -77,6 +77,7 @@
         blank-mode
         color-theme
         flymake-cursor
+        gnuplot-mode
         graphviz-dot-mode
         jedi
         js2-mode
@@ -798,16 +799,14 @@ vi style of % jumping to matching brace."
            (message "gtags... done"))
 
      (when section-gnuplot-mode (message "gnuplot-mode...")
-           (if (not (file-exists-p "~/.emacs.d/el-get/gnuplot-mode.el"))
-               (progn
-                 (url-copy-file "https://raw.github.com/mkmcc/gnuplot-mode/master/gnuplot-mode.el"
-                                "~/.emacs.d/el-get/gnuplot-mode.el")
-                 (byte-compile-file "~/.emacs.d/el-get/gnuplot-mode.el")))
-           (require 'gnuplot-mode)
-           (setq auto-mode-alist
-                 (append '(("\\.gp$" . gnuplot-mode)
-                           ("\\.gnu$" . gnuplot-mode))
-                         auto-mode-alist))
+           (add-to-list 'load-path "~/.emacs.d/el-get/gnuplot-mode")
+           (if (require 'gnuplot-mode nil 'noerror)
+               '(progn
+                  (require 'gnuplot-mode)
+                  (setq auto-mode-alist
+                        (append '(("\\.gp$" . gnuplot-mode)
+                                  ("\\.gnu$" . gnuplot-mode))
+                                auto-mode-alist))))
            (message "gnuplot-mode... done"))
 
      (when section-gdict (message "gidct...")
