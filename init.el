@@ -767,6 +767,7 @@ vi style of % jumping to matching brace."
            (eval-after-load 'jedi
                (progn
                  (setq jedi:setup-keys t)
+                 (setq jedi:complete-on-dot t)
                  (setq jedi:key-goto-definition (kbd "C-c ."))
                  (require 'jedi)
                  (add-hook 'python-mode-hook 'jedi:setup)
