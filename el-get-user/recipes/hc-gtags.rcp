@@ -1,0 +1,5 @@
+(:name hc-gtags
+       :type http
+       :website "https://github.com/inlinechan/EmacsDot2"
+       :description "This is gtags from global 6.x version(can't remember)"
+       :url "https://github.com/inlinechan/EmacsDot2/raw/master/gtags.el")

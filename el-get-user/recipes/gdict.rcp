@@ -1,0 +1,6 @@
+(:name gdict
+       :type http
+       :website "https://github.com/inlinechan/EmacsDot2"
+       :depends (pos-tip popup json)
+       :description "This is to lookup some words from Google Dictionary"
+       :url "https://github.com/inlinechan/EmacsDot2/raw/master/gdict.el")

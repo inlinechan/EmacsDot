@@ -1,0 +1,5 @@
+(:name hc-gud
+       :type http
+       :website "https://github.com/inlinechan/EmacsDot2"
+       :description "This is gdb from old Emacs(23)"
+       :url "https://github.com/inlinechan/EmacsDot2/raw/master/gud.el")
