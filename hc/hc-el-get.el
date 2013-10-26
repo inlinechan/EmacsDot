@@ -23,6 +23,7 @@
         auto-complete-etags
         color-theme
         ;; flymake-cursor
+        highlight-chars
         hc-gdb-ui
         hc-gtags
         hc-gud
