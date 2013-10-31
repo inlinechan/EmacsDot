@@ -76,11 +76,6 @@ vi style of % jumping to matching brace."
           (setq git-directory (concat current-directory ".git")))
         current-directory)))
 
-;; blank-mode
-;; (require 'blank-mode)
-(eval-after-load 'blank-mode
-  (global-set-key (kbd "C-c b") 'blank-mode))
-
 ;; Go to the line of the file easily especially in gdb call stack.
 ;; /etc/passwd:10
 (defun find-file-at-point-with-line()
@@ -153,31 +148,47 @@ vi style of % jumping to matching brace."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; notab
-(defun notab ()
-  "use 4 spaces instead of tab and also use spaces for indentation"
+(defun hc/notab ()
+  "Use 4 spaces instead of tab and also use spaces for indentation"
   (setq default-tab-width 4)
   (setq c-basic-offset 4)               ;; indent use only 4 blanks
   (setq indent-tabs-mode nil)           ;; no tab
-  )  
+  )
 
-(add-hook 'c-mode-hook 'notab)
-(add-hook 'c-mode-hook '
-	  (lambda () (c-set-style "bsd")))
-(add-hook 'c++-mode-hook 'notab)
-(add-hook 'c++-mode-hook '
-	  (lambda () (c-set-style "bsd")))
+(dolist (mode (list
+               'c++-mode-hook
+               'c-mode-hook
+               'cperl-mode-hook
+               'css-mode-hook
+               'emacs-lisp-mode-hook
+               'git-commit-mode-hook
+               'java-mode-hook
+               'js2-mode-hook
+               'perl-mode-hook
+               'python-mode-hook
+               ))
+  (add-hook mode 'hc/notab))
 
-(add-hook 'jave-mode-hook 'notab)
-(add-hook 'css-mode-hook 'notab)
-(add-hook 'python-mode-hook 'notab)
-(add-hook 'perl-mode-hook 'notab)
-(add-hook 'cperl-mode-hook 'notab)
-(add-hook 'emacs-lisp-mode-hook 'notab)
+;; c/c++ mode
+(defun hc/c-style ()
+  "C/C++ style"
+	  (c-set-style "bsd")
+      (setq c-basic-offset 4))
 
-;; tab width
-(setq default-tab-width 4)
-(setq c-basic-offset 4)                 ;; indent use only 4 spaces
-(setq-default indent-tabs-mode nil)     ;; no tab
+(defun switch-header-impl()
+  "Switch between header(.h) and impl(.c or .cpp)"
+  (local-set-key (kbd "M-p") 'ff-find-other-file))
+
+(dolist (mode (list
+               'c++-mode-hook
+               'c-mode-hook))
+  (add-hook mode 'hc/c-style)
+  (add-hook mode 'switch-header-impl))
+
+;; ;; tab width
+;; (setq default-tab-width 4)
+;; (setq c-basic-offset 4)                 ;; indent use only 4 spaces
+;; (setq-default indent-tabs-mode nil)     ;; no tab
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mode hook
@@ -188,46 +199,28 @@ vi style of % jumping to matching brace."
 (setq auto-mode-alist
       (cons '("\\.css\\'" . css-mode) auto-mode-alist))
 
-;; js2 mode
-(if (require 'js2-mode nil 'noerror)
-    (progn
-      ;; (add-to-list 'load-path "~/.emacs.d/js2-mode")
-      ;; (autoload 'js2-mode "js2-mode" nil t)
-      (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
-  (message "js2-mode initialized"))
-
-;; makefile
+;; makefile-mode
 (setq auto-mode-alist
       (append
-       '(("makefile\\." . makefile-mode)
-	 ("Makefile\\.*" . makefile-mode)
-	 ("\\.mak"      . makefile-mode)
-	 ;; ("\\.pri" . makefile-mode)
-	 ;; ("\\.pro" . makefile-mode)
-	 ("\\.prf" . makefile-mode)
-	 ("\\.min" . makefile-mode)
-	 ("Android.mk" . makefile-mode))
+       '(
+         ;; makefile
+         ("makefile\\."  . makefile-mode)
+         ("Makefile\\.*" . makefile-mode)
+         ("\\.mak$"      . makefile-mode)
+         ("\\.min$"      . makefile-mode)
+         ("Android.mk$"  . makefile-mode)
+         ;;  perl
+         ("\\.\\([pp][llm]\\|al\\)\\'" . cperl-mode)
+         ;; .h as c++
+         ("\\.h$"  . c++-mode)
+         )
        auto-mode-alist))
 
 ;; perl mode
-(add-to-list 'auto-mode-alist '("\\.\\([pp][llm]\\|al\\)\\'" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
-
-;; c++-mode
-(setq auto-mode-alist
+(setq interpreter-mode-alist
       (append
-       '(("\\.h$"      . c++-mode))
-       auto-mode-alist))
-
-(defun switch-header-impl()
-  "Switch between header(.h) and impl(.c or .cpp)"
-  (local-set-key (kbd "M-p") 'ff-find-other-file))
-
-(add-hook 'c++-mode-hook 'switch-header-impl)
-(add-hook 'c-mode-hook 'switch-header-impl)
+       '(("perl"     . cperl-mode)
+         ("perl5"    . cperl-mode)
+         ("miniperl" . cperl-mode)) interpreter-mode-alist))
 
 (provide 'hc-general)
-
-
