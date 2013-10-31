@@ -223,4 +223,30 @@ vi style of % jumping to matching brace."
          ("perl5"    . cperl-mode)
          ("miniperl" . cperl-mode)) interpreter-mode-alist))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; which-function-mode
+;; http://www.emacswiki.org/emacs/WhichFuncMode#WhichFunctionMode
+(which-function-mode)
+
+(setq mode-line-format (delete (assoc 'which-func-mode
+                                      mode-line-format) mode-line-format)
+      which-func-header-line-format '(which-func-mode ("" which-func-format)))
+
+(defadvice which-func-ff-hook (after header-line activate)
+  (when which-func-mode
+    (setq mode-line-format (delete (assoc 'which-func-mode
+                                          mode-line-format) mode-line-format)
+          header-line-format which-func-header-line-format)))
+
+(dolist (mode (list
+               'c++-mode
+               'c-mode
+               'java-mode
+               'js2-mode
+               'lisp-mode
+               'python-mode
+               'sh-mode))
+  (add-to-list 'which-func-modes mode))
+
 (provide 'hc-general)
