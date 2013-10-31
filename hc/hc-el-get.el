@@ -29,13 +29,10 @@
         hc-gtags
         hc-gud
         gdict
-        gnuplot-mode
-        graphviz-dot-mode
         jedi
         jquery-doc
         js2-mode
         magit
-        markdown-mode
         popup
         popup-pos-tip
         pos-tip
@@ -44,6 +41,20 @@
         qml-mode
         yasnippet
         ))
+
+     ;; Optional packages
+     ;; For example, emacs-w3m is available if w3m exist
+     (setq mode-alist '(("w3m"          . emacs-w3m)                ; w3m
+                        ("markdown"     . markdown-mode)            ; markdown
+                        ("gnuplot"      . gnuplot-mode)             ; gnuplot
+                        ("virtualenv"   . jedi)                     ; virtualenv
+                        ("dot"          . graphviz-dot-mode)))      ; graphviz
+
+     (dolist (mode-item mode-alist)
+       (when (executable-find (car mode-item))
+         (executable-find (car mode-item))
+         (message "%s" mode-item)
+         (add-to-list 'my:el-get-packages (cdr mode-item))))
 
      (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 
