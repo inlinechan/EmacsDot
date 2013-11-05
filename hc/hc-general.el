@@ -249,4 +249,18 @@ vi style of % jumping to matching brace."
                'sh-mode))
   (add-to-list 'which-func-modes mode))
 
+(dolist (mode (list
+               'c++-mode-hook
+               'c-mode-hook
+               'cperl-mode-hook
+               'css-mode-hook
+               'emacs-lisp-mode-hook
+               'git-commit-mode-hook
+               'java-mode-hook
+               'js2-mode-hook
+               'perl-mode-hook
+               'python-mode-hook
+               ))
+  (add-hook mode 'turn-on-orgtbl))
+
 (provide 'hc-general)
