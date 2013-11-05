@@ -21,6 +21,7 @@
         auto-complete-css
         auto-complete-emacs-lisp
         auto-complete-etags
+        bookmark+
         color-theme
         ;; flymake-cursor
         flycheck
