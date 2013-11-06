@@ -166,6 +166,7 @@ vi style of % jumping to matching brace."
                'js2-mode-hook
                'perl-mode-hook
                'python-mode-hook
+               'sh-mode
                ))
   (add-hook mode 'hc/notab))
 
@@ -260,6 +261,7 @@ vi style of % jumping to matching brace."
                'js2-mode-hook
                'perl-mode-hook
                'python-mode-hook
+               'sh-mode
                ))
   (add-hook mode 'turn-on-orgtbl))
 
