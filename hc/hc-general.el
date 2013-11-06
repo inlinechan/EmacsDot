@@ -173,8 +173,8 @@ vi style of % jumping to matching brace."
 ;; c/c++ mode
 (defun hc/c-style ()
   "C/C++ style"
-	  (c-set-style "bsd")
-      (setq c-basic-offset 4))
+  (c-set-style "bsd")
+  (setq c-basic-offset 4))
 
 (defun switch-header-impl()
   "Switch between header(.h) and impl(.c or .cpp)"
@@ -183,8 +183,28 @@ vi style of % jumping to matching brace."
 (dolist (mode (list
                'c++-mode-hook
                'c-mode-hook))
-  (add-hook mode 'hc/c-style)
+  ;; (add-hook mode 'hc/c-style)
   (add-hook mode 'switch-header-impl))
+
+;; WebKit hook
+;; https://github.com/omo/dotfiles/blob/master/.emacs#L178
+(defun webkit-c-mode-hook ()
+  (interactive)
+  (setq c-basic-offset 4)
+  (setq tab-width 8)
+  (setq indent-tabs-mode nil)
+  (c-set-offset 'innamespace 0)
+  (c-set-offset 'substatement-open 0))
+
+(defun hc/c-mode-hook ()
+  (message "%s" "hc/c-mode-hook")
+  (if (or (string-match "WebCore" buffer-file-name)
+          (string-match "JavaScriptCore" buffer-file-name)
+          (string-match "WebKit" buffer-file-name))
+      (webkit-c-mode-hook)
+    (hc/c-style)))
+
+(add-hook 'c-mode-common-hook 'hc/c-mode-hook)
 
 ;; ;; tab width
 ;; (setq default-tab-width 4)
