@@ -200,7 +200,8 @@ vi style of % jumping to matching brace."
   (message "%s" "hc/c-mode-hook")
   (if (or (string-match "WebCore" buffer-file-name)
           (string-match "JavaScriptCore" buffer-file-name)
-          (string-match "WebKit" buffer-file-name))
+          (string-match "WebKit" buffer-file-name)
+          (string-match "WebKit2" buffer-file-name))
       (webkit-c-mode-hook)
     (hc/c-style)))
 
