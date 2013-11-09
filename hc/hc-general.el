@@ -271,8 +271,8 @@ vi style of % jumping to matching brace."
   (add-to-list 'which-func-modes mode))
 
 (dolist (mode (list
-               'c++-mode-hook
-               'c-mode-hook
+               ;; 'c++-mode-hook      ;; wrong detection with starting || statement
+               ;; 'c-mode-hook
                'cperl-mode-hook
                'css-mode-hook
                'emacs-lisp-mode-hook
