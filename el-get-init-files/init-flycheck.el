@@ -26,7 +26,20 @@ See URL `http://www.webkit.org/coding/coding-style.html'."
   :modes (c++-mode)
   :next-checkers ((warnings-only . c/c++-cppcheck)))
 
+(defun hc/enable-check-webkit-style()
+  (interactive)
+  "Enable check-webkit-style only for WebKit source code"
+  (message "%s" "hc/enable-check-webkit-style")
+  (flycheck-mode)
+  (if (or (string-match "WebCore" buffer-file-name)
+          (string-match "JavaScriptCore" buffer-file-name)
+          (string-match "WebKit" buffer-file-name)
+          (string-match "WebKit2" buffer-file-name))
+      (flycheck-select-checker 'hc/webkit-style)
+    (flycheck-select-checker 'c/c++-clang)))
+
 (add-to-list 'flycheck-checkers 'hc/webkit-style)
-(add-hook 'c++-mode-hook 'flycheck-mode)
+(add-hook 'c++-mode-hook 'hc/enable-check-webkit-style)
+;; (add-hook 'c++-mode-hook 'flycheck-mode)
 
 (global-set-key (kbd "C-<f8>") 'flycheck-mode)
