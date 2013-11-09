@@ -1,13 +1,13 @@
 (add-hook 'c++-mode-hook (lambda ()
-			   (add-to-list 'ac-sources 'ac-source-clang)))
+               (add-to-list 'ac-sources 'ac-source-clang)))
 (add-hook 'c++-mode-hook
-	  (lambda ()
-	    (local-set-key (kbd "C-c .") 'ac-complete-clang)))
+      (lambda ()
+        (local-set-key (kbd "C-c .") 'ac-complete-clang)))
 
 (setq ac-clang-flags
       (mapcar (lambda (item)(concat "-I" item))
-	      (split-string
-	       "
+          (split-string
+           "
  /usr/include/c++/4.6
  /usr/include/c++/4.6/x86_64-linux-gnu/.
  /usr/include/c++/4.6/backward
@@ -17,7 +17,7 @@
  /usr/include/x86_64-linux-gnu
  /usr/include
 "
-	       )))
+           )))
 
 (defun my-ac-cc-mode-setup ()
   (setq ac-sources (append '(ac-source-clang ac-source-yasnippet) ac-sources)))

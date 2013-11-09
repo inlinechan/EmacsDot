@@ -22,28 +22,28 @@
 ;; (setq my-gtags-update-active t)
 
 ;; (run-with-idle-timer my-gtags-update-idle-time t
-;; 		     (lambda ()
-;; 		       (if (and my-gtags-update-active
-;; 				(not (minibufferp) )
-;; 				)
-;; 			   (progn
-;; 			     (message "Running gtags...")
-;; 			     (global-update-incrementally)
-;; 			     )
-;; 			 )
-;; 		       )
-;; 		     )
+;;           (lambda ()
+;;             (if (and my-gtags-update-active
+;;              (not (minibufferp) )
+;;              )
+;;             (progn
+;;               (message "Running gtags...")
+;;               (global-update-incrementally)
+;;               )
+;;           )
+;;             )
+;;           )
 
 ;; (add-hook 'ediff-quit-hook
-;; 	  (lambda ()
-;; 	    (message "Activating gtags update.")
-;; 	    (setq my-gtags-update-active t)
-;; 	    )
-;; 	  )
+;;    (lambda ()
+;;      (message "Activating gtags update.")
+;;      (setq my-gtags-update-active t)
+;;      )
+;;    )
 
 ;; (add-hook 'ediff-before-setup-hook
-;; 	  (lambda ()
-;; 	    (message "Deactivating gtags update.")
-;; 	    (setq my-gtags-update-active nil)
-;; 	    )
-;; 	  )
+;;    (lambda ()
+;;      (message "Deactivating gtags update.")
+;;      (setq my-gtags-update-active nil)
+;;      )
+;;    )
