@@ -7,6 +7,34 @@
 (global-set-key (kbd "C-c g r") 'gtags-find-rtag)
 (global-set-key (kbd "C-c g l") 'gtags-find-symbol)
 
+(add-hook 'gtags-select-mode-hook
+  '(lambda ()
+     (setq hl-line-face 'underline)
+     (hl-line-mode 1)))
+
+;; Update GNU global upon save
+;; http://www.emacswiki.org/emacs/GnuGlobal#toc3
+(defun gtags-root-dir ()
+  "Returns GTAGS root directory or nil if doesn't exist."
+  (with-temp-buffer
+    (if (zerop (call-process "global" nil t nil "-pr"))
+        (buffer-substring (point-min) (1- (point-max)))
+      nil)))
+
+(defun gtags-update ()
+  "Make GTAGS incremental update"
+  ;; (call-process "global" nil nil nil "-u")
+  (start-process "update-gtags" nil "global" "-u"))
+
+(defun gtags-update-hook ()
+  (when (gtags-root-dir)
+    (gtags-update)))
+
+(dolist (mode-hook (list
+               'c++-mode-hook
+               'c-mode-hook))
+  (add-to-list 'after-save-hook #'gtags-update-hook))
+
 ;; TODO
 ;; (defun global-update-incrementally () (shell-command "global -u -q")) ;; "*Messages*" "*Messages*") )
 
