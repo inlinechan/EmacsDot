@@ -34,3 +34,4 @@
 (require 'hc-shell)
 ;; (require 'hc-cedet)
 (require 'hc-newsticker)
+(require 'hc-gnus)
