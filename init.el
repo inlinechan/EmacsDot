@@ -33,3 +33,4 @@
 (require 'hc-ui)
 (require 'hc-shell)
 ;; (require 'hc-cedet)
+(require 'hc-newsticker)
