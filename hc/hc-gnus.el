@@ -1,3 +1,4 @@
+(require 'gnus)
 (setq gnus-select-method '(nntp "news.gmane.org"))
 
 (setq gnus-use-cache t)
