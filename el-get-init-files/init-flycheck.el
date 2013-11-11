@@ -26,9 +26,9 @@ See URL `http://www.webkit.org/coding/coding-style.html'."
   :modes (c++-mode)
   :next-checkers ((warnings-only . c/c++-cppcheck)))
 
-(defun hc/enable-check-webkit-style()
-  (interactive)
+(defun hc/enable-check-webkit-style ()
   "Enable check-webkit-style only for WebKit source code"
+  (interactive)
   (message "%s" "hc/enable-check-webkit-style")
   (flycheck-mode)
   (if (or (string-match "WebCore" buffer-file-name)
@@ -42,4 +42,17 @@ See URL `http://www.webkit.org/coding/coding-style.html'."
 (add-hook 'c++-mode-hook 'hc/enable-check-webkit-style)
 ;; (add-hook 'c++-mode-hook 'flycheck-mode)
 
-(global-set-key (kbd "C-<f8>") 'flycheck-mode)
+(defun hc/disable-flycheck ()
+  "Disable flycheck mode"
+  (interactive)
+  (flycheck-teardown)
+  (remove-hook 'c++-mode-hook 'hc/enable-check-webkit-style))
+
+(defun hc/toggle-flycheck ()
+  "Toggle flycheck mode"
+  (interactive)
+  (if (member 'hc/enable-check-webkit-style c++-mode-hook)
+      (hc/disable-flycheck)
+    (hc/enable-check-webkit-style)))
+
+(global-set-key (kbd "C-<f8>") 'hc/toggle-flycheck)
