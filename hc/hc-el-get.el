@@ -30,7 +30,6 @@
         hc-gtags
         hc-gud
         gdict
-        jedi
         jquery-doc
         js2-mode
         magit
