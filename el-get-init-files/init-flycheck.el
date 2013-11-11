@@ -29,8 +29,8 @@ See URL `http://www.webkit.org/coding/coding-style.html'."
 (defun hc/enable-check-webkit-style ()
   "Enable check-webkit-style only for WebKit source code"
   (interactive)
-  (message "%s" "hc/enable-check-webkit-style")
   (flycheck-mode)
+  (add-hook 'c++-mode-hook 'hc/enable-check-webkit-style)
   (if (or (string-match "WebCore" buffer-file-name)
           (string-match "JavaScriptCore" buffer-file-name)
           (string-match "WebKit" buffer-file-name)
@@ -39,20 +39,23 @@ See URL `http://www.webkit.org/coding/coding-style.html'."
     (flycheck-select-checker 'c/c++-clang)))
 
 (add-to-list 'flycheck-checkers 'hc/webkit-style)
-(add-hook 'c++-mode-hook 'hc/enable-check-webkit-style)
-;; (add-hook 'c++-mode-hook 'flycheck-mode)
+;; (add-hook 'c++-mode-hook 'hc/enable-check-webkit-style)
 
-(defun hc/disable-flycheck ()
+(defun hc/disable-check-webkit-style ()
   "Disable flycheck mode"
   (interactive)
-  (flycheck-teardown)
   (remove-hook 'c++-mode-hook 'hc/enable-check-webkit-style))
 
 (defun hc/toggle-flycheck ()
   "Toggle flycheck mode"
   (interactive)
-  (if (member 'hc/enable-check-webkit-style c++-mode-hook)
-      (hc/disable-flycheck)
-    (hc/enable-check-webkit-style)))
+  ;; (message "%s %s" "flycheck-mode" flycheck-mode)
+  (let ((old-mode flycheck-mode))
+    (when flycheck-mode
+      (setq current-prefix-arg nil))
+    (call-interactively 'flycheck-mode)
+    (if old-mode
+        (hc/disable-check-webkit-style)
+      (hc/enable-check-webkit-style))))
 
 (global-set-key (kbd "C-<f8>") 'hc/toggle-flycheck)
