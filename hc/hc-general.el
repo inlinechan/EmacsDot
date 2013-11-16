@@ -197,7 +197,6 @@ vi style of % jumping to matching brace."
   (c-set-offset 'substatement-open 0))
 
 (defun hc/c-mode-hook ()
-  (message "%s" "hc/c-mode-hook")
   (if (or (string-match "WebCore" buffer-file-name)
           (string-match "JavaScriptCore" buffer-file-name)
           (string-match "WebKit" buffer-file-name)
@@ -233,10 +232,19 @@ vi style of % jumping to matching brace."
          ("Android.mk$"  . makefile-mode)
          ;;  perl
          ("\\.\\([pp][llm]\\|al\\)\\'" . cperl-mode)
-         ;; .h as c++
-         ("\\.h$"  . c++-mode)
          )
        auto-mode-alist))
+
+(defun hc/h-as-c++-mode ()
+  "Detect .h file as c++-mode in some case"
+  (when (or (string-match "WebCore" buffer-file-name)
+	    (string-match "JavaScriptCore" buffer-file-name)
+	    (string-match "WebKit" buffer-file-name)
+	    (string-match "WebKit2" buffer-file-name))
+    ;; (call-interactively 'c++-mode)
+    (c++-mode)))
+
+(add-hook 'c-mode-hook 'hc/h-as-c++-mode)
 
 ;; perl mode
 (setq interpreter-mode-alist
