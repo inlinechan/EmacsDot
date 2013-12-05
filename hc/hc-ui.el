@@ -11,7 +11,9 @@
 (if (require 'color-theme nil 'noerror)
     (progn
       (color-theme-initialize)
-      (color-theme-clarity)))
+      (if (window-system)
+          (color-theme-solarized-light)
+        (color-theme-clarity))))
 
 ;; full screen
 (defun fullscreen ()

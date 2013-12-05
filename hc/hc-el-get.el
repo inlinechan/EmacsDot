@@ -23,6 +23,7 @@
         auto-complete-etags
         bookmark+
         color-theme
+        color-theme-solarized
         ;; flymake-cursor
         flycheck
         highlight-chars
