@@ -22,4 +22,6 @@
 
 (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 
+(global-set-key (kbd "C-c C-l") 'shell)
+
 (provide 'hc-general-key)
