@@ -148,6 +148,10 @@ vi style of % jumping to matching brace."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; notab
+
+;; notab by default
+(setq indent-tabs-mode nil)
+
 (defun hc/notab ()
   "Use 4 spaces instead of tab and also use spaces for indentation"
   (setq default-tab-width 4)
