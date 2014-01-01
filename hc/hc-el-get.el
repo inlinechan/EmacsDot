@@ -31,6 +31,7 @@
         hc-gtags
         hc-gud
         gdict
+        google-c-style
         jquery-doc
         js2-mode
         magit

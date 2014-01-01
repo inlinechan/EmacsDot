@@ -206,7 +206,9 @@ vi style of % jumping to matching brace."
           (string-match "WebKit" buffer-file-name)
           (string-match "WebKit2" buffer-file-name))
       (webkit-c-mode-hook)
-    (hc/c-style)))
+    (if (string-match "chromium" buffer-file-name)
+        (google-set-c-style)
+      (hc/c-style))))
 
 (add-hook 'c-mode-common-hook 'hc/c-mode-hook)
 
@@ -239,16 +241,15 @@ vi style of % jumping to matching brace."
          )
        auto-mode-alist))
 
-(defun hc/h-as-c++-mode ()
-  "Detect .h file as c++-mode in some case"
-  (when (or (string-match "WebCore" buffer-file-name)
-	    (string-match "JavaScriptCore" buffer-file-name)
-	    (string-match "WebKit" buffer-file-name)
-	    (string-match "WebKit2" buffer-file-name))
-    ;; (call-interactively 'c++-mode)
+(defun hc/decide-c-c++-mode ()
+  "Detect .h file as c-mode in some case"
+  (setq cfilename (concat (file-name-sans-extension buffer-file-name) ".c"))
+  (if (or (file-exists-p cfilename)
+          (string-match "cairo" buffer-file-name))
+      (c-mode)
     (c++-mode)))
 
-(add-hook 'c-mode-hook 'hc/h-as-c++-mode)
+(add-hook 'c-mode-hook 'hc/decide-c-c++-mode)
 
 ;; perl mode
 (setq interpreter-mode-alist
