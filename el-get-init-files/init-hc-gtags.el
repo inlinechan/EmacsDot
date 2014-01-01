@@ -35,6 +35,8 @@
                'c-mode-hook))
   (add-to-list 'after-save-hook #'gtags-update-hook))
 
+(setq gtags-path-style 'relative)
+
 ;; TODO
 ;; (defun global-update-incrementally () (shell-command "global -u -q")) ;; "*Messages*" "*Messages*") )
 
