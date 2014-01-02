@@ -1,7 +1,6 @@
 (require 'newsticker)
-(require 'w3m)
-
-(setq newsticker-html-renderer 'w3m-region)
+(when (require 'w3m nil t)
+  (setq newsticker-html-renderer 'w3m-region))
 (setq newsticker-use-full-width t)
 (setq newsticker-treeview-treewindow-width 20)
 

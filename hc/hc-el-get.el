@@ -47,7 +47,7 @@
      ;; Optional packages
      ;; For example, emacs-w3m is available if w3m exist
      (setq mode-alist
-           '(("w3m"          . emacs-w3m)                 ; w3m
+           '(("cvs"          . emacs-w3m)                 ; w3m
              ("markdown"     . markdown-mode)             ; markdown
              ("gnuplot"      . gnuplot-mode)              ; gnuplot
              ("virtualenv"   . jedi)                      ; virtualenv
