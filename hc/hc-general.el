@@ -150,35 +150,15 @@ vi style of % jumping to matching brace."
 ;; notab
 
 ;; notab by default
-(setq-default indent-tabs-mode nil)
-
-(defun hc/notab ()
-  "Use 4 spaces instead of tab and also use spaces for indentation"
-  (setq default-tab-width 4)
-  (setq c-basic-offset 4)               ;; indent use only 4 blanks
-  (setq indent-tabs-mode nil)           ;; no tab
-  )
-
-(dolist (mode (list
-               'c++-mode-hook
-               'c-mode-hook
-               'cperl-mode-hook
-               'css-mode-hook
-               'emacs-lisp-mode-hook
-               'git-commit-mode-hook
-               'java-mode-hook
-               'js2-mode-hook
-               'perl-mode-hook
-               'python-mode-hook
-               'sh-mode-hook
-               ))
-  (add-hook mode 'hc/notab))
+(setq-default indent-tabs-mode nil
+              c-basic-offset 4
+              default-tab-width 4
+              tab-width 4)
 
 ;; c/c++ mode
 (defun hc/c-style ()
   "C/C++ style"
-  (c-set-style "bsd")
-  (setq c-basic-offset 4))
+  (c-set-style "bsd"))
 
 (defun switch-header-impl()
   "Switch between header(.h) and impl(.c or .cpp)"
@@ -190,32 +170,27 @@ vi style of % jumping to matching brace."
   ;; (add-hook mode 'hc/c-style)
   (add-hook mode 'switch-header-impl))
 
-;; WebKit hook
-;; https://github.com/omo/dotfiles/blob/master/.emacs#L178
-(defun webkit-c-mode-hook ()
-  (interactive)
-  (setq c-basic-offset 4)
-  (setq tab-width 8)
-  (setq indent-tabs-mode nil)
-  (c-set-offset 'innamespace 0)
-  (c-set-offset 'substatement-open 0))
-
 (defun hc/c-mode-hook ()
+  (require 'google-c-style)
+  (google-set-c-style)
+  (c-add-style "WebKit" '("Google"
+                          (c-basic-offset . 4)
+                          (c-offsets-alist . ((innamespace . 0)
+                                              (access-label . -)
+                                              (case-label . 0)
+                                              (member-init-intro . +)
+                                              (topmost-intro . 0)))))
+
   (if (or (string-match "WebCore" buffer-file-name)
           (string-match "JavaScriptCore" buffer-file-name)
           (string-match "WebKit" buffer-file-name)
           (string-match "WebKit2" buffer-file-name))
-      (webkit-c-mode-hook)
+      (call-interactively (c-set-style "WebKit"))
     (if (string-match "chromium" buffer-file-name)
-        (google-set-c-style)
+        (c-set-style "Google")
       (hc/c-style))))
 
 (add-hook 'c-mode-common-hook 'hc/c-mode-hook)
-
-;; ;; tab width
-;; (setq default-tab-width 4)
-;; (setq c-basic-offset 4)                 ;; indent use only 4 spaces
-;; (setq-default indent-tabs-mode nil)     ;; no tab
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mode hook
