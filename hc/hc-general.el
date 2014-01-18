@@ -185,7 +185,7 @@ vi style of % jumping to matching brace."
           (string-match "JavaScriptCore" buffer-file-name)
           (string-match "WebKit" buffer-file-name)
           (string-match "WebKit2" buffer-file-name))
-      (call-interactively (c-set-style "WebKit"))
+      (c-set-style "WebKit")
     (if (string-match "chromium" buffer-file-name)
         (c-set-style "Google")
       (hc/c-style))))
