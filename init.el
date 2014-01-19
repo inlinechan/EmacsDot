@@ -35,3 +35,4 @@
 ;; (require 'hc-cedet)
 (require 'hc-newsticker)
 (require 'hc-gnus)
+(require 'hc-org)

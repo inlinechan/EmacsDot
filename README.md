@@ -9,7 +9,8 @@
         $ sudo apt-get install clang                  # for flymake C++
         $ sudo apt-get install automake1.10           # for gnuplot-mode
         $ sudo apt-get install w3m cvs                # for w3m newsticker
-
+        # for org-mode to export to pdf
+        $ sudo apt-get install texlive texlive-latex-base texlive-latex-extra
 1. Make sure that you're connected on the internet
 1. Sign-in github.com in your web-browser to avoid getting html error
    page instead of .el files 
