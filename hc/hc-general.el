@@ -171,24 +171,26 @@ vi style of % jumping to matching brace."
   (add-hook mode 'switch-header-impl))
 
 (defun hc/c-mode-hook ()
-  (require 'google-c-style)
-  (google-set-c-style)
-  (c-add-style "WebKit" '("Google"
-                          (c-basic-offset . 4)
-                          (c-offsets-alist . ((innamespace . 0)
-                                              (access-label . -)
-                                              (case-label . 0)
-                                              (member-init-intro . +)
-                                              (topmost-intro . 0)))))
+  (if (buffer-file-name)
+      (progn
+        (require 'google-c-style)
+        (google-set-c-style)
+        (c-add-style "WebKit" '("Google"
+                                (c-basic-offset . 4)
+                                (c-offsets-alist . ((innamespace . 0)
+                                                    (access-label . -)
+                                                    (case-label . 0)
+                                                    (member-init-intro . +)
+                                                    (topmost-intro . 0)))))
 
-  (if (or (string-match "WebCore" buffer-file-name)
-          (string-match "JavaScriptCore" buffer-file-name)
-          (string-match "WebKit" buffer-file-name)
-          (string-match "WebKit2" buffer-file-name))
-      (c-set-style "WebKit")
-    (if (string-match "chromium" buffer-file-name)
-        (c-set-style "Google")
-      (hc/c-style))))
+        (if (or (string-match "WebCore" buffer-file-name)
+                (string-match "JavaScriptCore" buffer-file-name)
+                (string-match "WebKit" buffer-file-name)
+                (string-match "WebKit2" buffer-file-name))
+            (c-set-style "WebKit")
+          (if (string-match "chromium" buffer-file-name)
+              (c-set-style "Google")
+            (hc/c-style))))))
 
 (add-hook 'c-mode-common-hook 'hc/c-mode-hook)
 
@@ -218,11 +220,14 @@ vi style of % jumping to matching brace."
 
 (defun hc/decide-c-c++-mode ()
   "Detect .h file as c-mode in some case"
-  (setq cfilename (concat (file-name-sans-extension buffer-file-name) ".c"))
-  (if (or (file-exists-p cfilename)
-          (string-match "cairo" buffer-file-name))
-      (c-mode)
-    (c++-mode)))
+  ;; http://stackoverflow.com/questions/8325762/emacs-org-mode-cant-edit-c-source-code
+  (if (buffer-file-name)
+      (progn
+        (setq cfilename (concat (file-name-sans-extension buffer-file-name) ".c"))
+        (if (or (file-exists-p cfilename)
+                (string-match "cairo" buffer-file-name))
+            (c-mode)
+          (c++-mode)))))
 
 (add-hook 'c-mode-hook 'hc/decide-c-c++-mode)
 
