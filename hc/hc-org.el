@@ -40,7 +40,8 @@
          (ledger . t)
          (org . t)
          (plantuml . t)
-         (latex . t))))
+         (latex . t)
+         (C . t))))
 
 ; Do not prompt to confirm evaluation
 ; This may be dangerous - make sure you understand the consequences
