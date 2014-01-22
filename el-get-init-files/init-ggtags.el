@@ -13,6 +13,7 @@
     (message "%s" "init-ggtags")
     (set-keymap-parent newmap oldmap)
     (define-key newmap (kbd "M-]") nil)
+    (define-key newmap (kbd "C-M-]") 'ggtags-find-reference)
     (make-local-variable 'minor-mode-overriding-map-alist)
     (push `(ggtags-mode . ,newmap) minor-mode-overriding-map-alist))
 )
