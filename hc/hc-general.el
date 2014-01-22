@@ -215,6 +215,10 @@ vi style of % jumping to matching brace."
          ("Android.mk$"  . makefile-mode)
          ;;  perl
          ("\\.\\([pp][llm]\\|al\\)\\'" . cperl-mode)
+         ;; gyp
+         ("\\.gypi?$"    . python-mode)
+         ;; bitbake
+         ("\\.bb$"       . python-mode)
          )
        auto-mode-alist))
 
