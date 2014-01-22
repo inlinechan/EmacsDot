@@ -162,7 +162,7 @@ vi style of % jumping to matching brace."
 
 (defun switch-header-impl()
   "Switch between header(.h) and impl(.c or .cpp)"
-  (local-set-key (kbd "M-p") 'ff-find-other-file))
+  (local-set-key (kbd "C-M-p") 'ff-find-other-file))
 
 (dolist (mode (list
                'c++-mode-hook

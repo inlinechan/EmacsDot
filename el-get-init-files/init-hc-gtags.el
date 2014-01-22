@@ -30,11 +30,6 @@
   (when (gtags-root-dir)
     (gtags-update)))
 
-(dolist (mode-hook (list
-               'c++-mode-hook
-               'c-mode-hook))
-  (add-to-list 'after-save-hook #'gtags-update-hook))
-
 (setq gtags-path-style 'relative)
 
 ;; TODO
