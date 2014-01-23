@@ -156,9 +156,6 @@ vi style of % jumping to matching brace."
               tab-width 4)
 
 ;; c/c++ mode
-(defun hc/c-style ()
-  "C/C++ style"
-  (c-set-style "bsd"))
 
 (defun switch-header-impl()
   "Switch between header(.h) and impl(.c or .cpp)"
@@ -170,29 +167,42 @@ vi style of % jumping to matching brace."
   ;; (add-hook mode 'hc/c-style)
   (add-hook mode 'switch-header-impl))
 
-(defun hc/c-mode-hook ()
+(defun hc/add-styles ()
+  "Add c/c++ styles"
+  (require 'google-c-style)
+  (google-set-c-style)
+
+  (c-add-style "hc" '("stroustrup"
+                      (c-basic-offset . 4)))
+
+  (c-add-style "WebKit" '("Google"
+                          (c-basic-offset . 4)
+                          (c-offsets-alist . ((innamespace . 0)
+                                              (access-label . -)
+                                              (case-label . 0)
+                                              (member-init-intro . +)
+                                              (topmost-intro . 0)))))
+  (message "%s" "hc/add-styles")
+  (c-set-style "hc")
+)
+
+(defun hc/decide-c-mode-style ()
   (if (buffer-file-name)
-      (progn
-        (require 'google-c-style)
-        (google-set-c-style)
-        (c-add-style "WebKit" '("Google"
-                                (c-basic-offset . 4)
-                                (c-offsets-alist . ((innamespace . 0)
-                                                    (access-label . -)
-                                                    (case-label . 0)
-                                                    (member-init-intro . +)
-                                                    (topmost-intro . 0)))))
+      (if (or (string-match "WebCore" buffer-file-name)
+              (string-match "JavaScriptCore" buffer-file-name)
+              (string-match "WebKit" buffer-file-name)
+              (string-match "WebKit2" buffer-file-name))
+          (progn
+            (message "%s" "hc/maybe-webkit-style")
+            (c-set-style "WebKit"))
+        (if (string-match "chromium" buffer-file-name)
+            (progn
+              (message "%s" "hc/maybe-google-style")
+              (c-set-style "google"))
+          (c-set-style "hc")))))
 
-        (if (or (string-match "WebCore" buffer-file-name)
-                (string-match "JavaScriptCore" buffer-file-name)
-                (string-match "WebKit" buffer-file-name)
-                (string-match "WebKit2" buffer-file-name))
-            (c-set-style "WebKit")
-          (if (string-match "chromium" buffer-file-name)
-              (c-set-style "Google")
-            (hc/c-style))))))
-
-(add-hook 'c-mode-common-hook 'hc/c-mode-hook)
+(add-hook 'c-mode-common-hook 'hc/add-styles)
+(add-hook 'c-mode-common-hook 'hc/decide-c-mode-style t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mode hook
