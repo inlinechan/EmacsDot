@@ -55,6 +55,8 @@
 
 (setq org-src-fontify-natively t)
 
+(setq doc-view-conversion-refresh-interval 1)
+
 (provide 'hc-org)
 ;;; hc-org ends here
 
