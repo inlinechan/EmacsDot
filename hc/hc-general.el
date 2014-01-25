@@ -232,18 +232,15 @@ vi style of % jumping to matching brace."
          )
        auto-mode-alist))
 
-(defun hc/decide-c-c++-mode ()
-  "Detect .h file as c-mode in some case"
-  ;; http://stackoverflow.com/questions/8325762/emacs-org-mode-cant-edit-c-source-code
-  (if (buffer-file-name)
-      (progn
-        (setq cfilename (concat (file-name-sans-extension buffer-file-name) ".c"))
-        (if (or (file-exists-p cfilename)
-                (string-match "cairo" buffer-file-name))
-            (c-mode)
-          (c++-mode)))))
-
-(add-hook 'c-mode-hook 'hc/decide-c-c++-mode)
+;; http://stackoverflow.com/a/3346308
+(defun c-c++-header ()
+  "sets either c-mode or c++-mode, whichever is appropriate for header"
+  (interactive)
+  (let ((c-file (concat (substring (buffer-file-name) 0 -1) "c")))
+    (if (file-exists-p c-file)
+        (c-mode)
+      (c++-mode))))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
 
 ;; perl mode
 (setq interpreter-mode-alist
