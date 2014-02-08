@@ -1,0 +1,5 @@
+(:name orglue
+       :type github
+       :pkgname "yoshinari-nomura/orglue"
+       :description "More functionality to org-mode"
+       :website "https://github.com/yoshinari-nomura/orglue")

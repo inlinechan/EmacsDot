@@ -44,6 +44,9 @@
         qmake-mode
         qml-mode
         yasnippet
+        ;; org-octopress
+        orglue
+        org-octopress
         ))
 
      ;; Optional packages
