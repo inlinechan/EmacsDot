@@ -36,6 +36,7 @@
         jquery-doc
         js2-mode
         magit
+        org-mode
         popup
         popup-pos-tip
         pos-tip
