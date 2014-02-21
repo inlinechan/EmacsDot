@@ -36,3 +36,4 @@
 (require 'hc-newsticker)
 (require 'hc-gnus)
 (require 'hc-org)
+(require 'js-beautify)
