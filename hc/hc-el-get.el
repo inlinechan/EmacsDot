@@ -42,10 +42,11 @@
         pos-tip
         psvn
         qmake-mode
-        qml-mode
-        yasnippet
         org-octopress
         orglue
+        qml-mode
+        slime
+        yasnippet
         ))
 
      ;; Optional packages
