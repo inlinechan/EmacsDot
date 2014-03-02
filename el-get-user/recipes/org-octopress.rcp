@@ -2,6 +2,5 @@
        :type github
        :pkgname "yoshinari-nomura/org-octopress"
        :description "Org-octopress – org-mode in octopress."
-       :website "https://github.com/yoshinari-nomura/org-octopress")
-
-
+       :website "https://github.com/yoshinari-nomura/org-octopress"
+       :depends (orglue ctable))
