@@ -271,7 +271,7 @@ vi style of % jumping to matching brace."
                'java-mode
                'js2-mode
                'lisp-mode
-               'python-mode
+               ;; 'python-mode
                'sh-mode))
   (add-to-list 'which-func-modes mode))
 
