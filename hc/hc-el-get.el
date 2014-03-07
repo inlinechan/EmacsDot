@@ -22,6 +22,7 @@
         auto-complete-emacs-lisp
         auto-complete-etags
         bookmark+
+        cmake-mode
         color-theme
         color-theme-solarized
         ;; flymake-cursor
