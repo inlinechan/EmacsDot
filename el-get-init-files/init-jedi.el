@@ -6,3 +6,4 @@
 ;; python-mode-hook
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'python-mode-hook 'jedi:ac-setup)
+(add-hook 'python-mode-hook 'jedi:start-server)
