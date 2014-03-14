@@ -62,8 +62,16 @@
              ("/usr/share/info/python.info" . pydoc-info) ; pydoc-info(manual install)
              ))
 
+     (defun packages-exist-p (package-list)
+       (if (not package-list)
+           t                            ; ignore nil elmt to do and operation
+         (and (executable-find (car package-list))
+              (packages-exist-p (cdr package-list)))))
+
      (dolist (mode-item mode-alist)
-       (when (or (executable-find (car mode-item)) (file-exists-p (car mode-item)))
+       (when
+           (or (and (car mode-item) (packages-exist-p (split-string (car mode-item))))
+               (file-exists-p (car mode-item)))
          (add-to-list 'my:el-get-packages (cdr mode-item))))
 
      (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
