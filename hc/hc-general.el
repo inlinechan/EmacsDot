@@ -181,6 +181,7 @@ vi style of % jumping to matching brace."
                                               (access-label . -)
                                               (case-label . 0)
                                               (member-init-intro . +)
+                                              (statement-cont . +)
                                               (topmost-intro . 0)))))
   (message "%s" "hc/add-styles")
   (c-set-style "hc")
