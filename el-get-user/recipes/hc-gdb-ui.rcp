@@ -1,5 +1,0 @@
-(:name hc-gdb-ui
-       :type http
-       :website "https://github.com/inlinechan/EmacsDot2"
-       :description "This is gdb ui from old Emacs(23)"
-       :url "https://github.com/inlinechan/EmacsDot2/raw/master/gdb-ui.el")

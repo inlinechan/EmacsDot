@@ -28,9 +28,6 @@
         ;; flymake-cursor
         flycheck
         highlight-chars
-        hc-gdb-ui
-        hc-gtags
-        hc-gud
         gdict
         ggtags
         google-c-style
