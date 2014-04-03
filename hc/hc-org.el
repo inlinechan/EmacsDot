@@ -57,6 +57,40 @@
 
 (setq doc-view-conversion-refresh-interval 1)
 
+;; (setq org-startup-folded-prev nil)
+
+;; (add-hook 'ediff-before-setup-hook
+;;           (lambda ()
+;;             (setq org-startup-folded-prev org-startup-folded)
+;;             (setq org-startup-folded nil )))
+
+;; (add-hook 'ediff-quit-hook
+;;           (lambda ()
+;;             (setq org-startup-folded org-startup-folded-prev)))
+
+
+;; Do not fold org-mode in ediff
+;; http://web.archiveorange.com/archive/v/Fv8aAM6yHysyeOVrnWBE#uTlUCjbhZTHNL53
+(add-hook 'ediff-prepare-buffer-hook 'f-ediff-prepare-buffer-hook-setup)
+(defun f-ediff-prepare-buffer-hook-setup ()
+  ;; specific modes
+  (cond ((eq major-mode 'org-mode)
+         (f-org-vis-mod-maximum))
+        ;; room for more modes
+        )
+  ;; all modes
+  (setq truncate-lines nil))
+(defun f-org-vis-mod-maximum ()
+  "Visibility: Show the most possible."
+  (cond
+   ((eq major-mode 'org-mode)
+    (visible-mode 1)  ; default 0
+    (setq truncate-lines nil)  ; no `org-startup-truncated' in hook
+    (setq org-hide-leading-stars t))  ; default nil
+   (t
+    (message "ERR: not in Org mode")
+    (ding))))
+
 (provide 'hc-org)
 ;;; hc-org ends here
 
