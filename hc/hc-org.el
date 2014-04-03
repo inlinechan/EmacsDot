@@ -57,18 +57,6 @@
 
 (setq doc-view-conversion-refresh-interval 1)
 
-;; (setq org-startup-folded-prev nil)
-
-;; (add-hook 'ediff-before-setup-hook
-;;           (lambda ()
-;;             (setq org-startup-folded-prev org-startup-folded)
-;;             (setq org-startup-folded nil )))
-
-;; (add-hook 'ediff-quit-hook
-;;           (lambda ()
-;;             (setq org-startup-folded org-startup-folded-prev)))
-
-
 ;; Do not fold org-mode in ediff
 ;; http://web.archiveorange.com/archive/v/Fv8aAM6yHysyeOVrnWBE#uTlUCjbhZTHNL53
 (add-hook 'ediff-prepare-buffer-hook 'f-ediff-prepare-buffer-hook-setup)
