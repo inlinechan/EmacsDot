@@ -5,7 +5,7 @@
 
 (require 'flycheck)
 
-(setq verbose t)
+(setq verbose nil)
 
 (defun hc/get-webkit-dir ()
   "Return WebKit dir under $HOME."
@@ -28,8 +28,8 @@
 
 See URL `http://www.webkit.org/coding/coding-style.html'."
       :command ("python"
-                ;; http://docs.python.org/2/using/cmdline.html#cmdoption-s
-                "-s"
+                ;; http://docs.python.org/2/using/cmdline.html#cmdoption-S
+                "-S"
                 (eval (hc/get-check-script-path))
                 source)
       :error-patterns
