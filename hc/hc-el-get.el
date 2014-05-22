@@ -45,6 +45,10 @@
         qml-mode
         slime
         yasnippet
+        ;; tern - requirement
+        ;; $ apt-get install nodejs, npm
+        ;; $ npm install acorn glob minimatch
+        tern
         ))
 
      ;; Optional packages
