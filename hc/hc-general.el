@@ -291,4 +291,9 @@ vi style of % jumping to matching brace."
                ))
   (add-hook mode 'turn-on-orgtbl))
 
+(setq magic-mode-alist
+      (append
+       '(("#!/usr/bin/expect"     . tcl-mode))
+       magic-mode-alist))
+
 (provide 'hc-general)
