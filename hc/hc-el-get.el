@@ -29,7 +29,7 @@
         flycheck
         highlight-chars
         gdict
-        ggtags
+        ;; ggtags
         google-c-style
         jquery-doc
         js2-mode
