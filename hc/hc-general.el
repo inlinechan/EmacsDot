@@ -296,4 +296,8 @@ vi style of % jumping to matching brace."
        '(("#!/usr/bin/expect"     . tcl-mode))
        magic-mode-alist))
 
+;; Do not use new frame while run ediff
+;; http://stackoverflow.com/a/1680825
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
 (provide 'hc-general)
