@@ -51,6 +51,7 @@
         ;; $ npm install acorn glob minimatch
         tern
         web-mode
+        org-reveal
         ))
 
      ;; Optional packages
