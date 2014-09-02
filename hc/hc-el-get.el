@@ -50,6 +50,7 @@
         ;; $ apt-get install nodejs, npm
         ;; $ npm install acorn glob minimatch
         tern
+        web-mode
         ))
 
      ;; Optional packages
