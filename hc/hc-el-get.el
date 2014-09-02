@@ -25,6 +25,7 @@
         cmake-mode
         color-theme
         color-theme-solarized
+        css-mode-simple
         ;; flymake-cursor
         flycheck
         highlight-chars
