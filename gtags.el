@@ -277,6 +277,7 @@
       (define-key gtags-select-mode-map "q" 'gtags-pop-stack)
       (define-key gtags-select-mode-map "u" 'gtags-pop-stack)
       (define-key gtags-select-mode-map "\C-o" 'gtags-select-tag-other-window)
+      (define-key gtags-select-mode-map "\eo" 'gtags-select-tag-other-window-focus)
       (define-key gtags-select-mode-map "\e." 'gtags-select-tag)
       (if gtags-disable-pushy-mouse-mapping nil
         (if gtags-running-xemacs nil
@@ -681,16 +682,22 @@
       (gtags-push-context)
       (gtags-goto-tag tagname flag))))
 
-(defun gtags-select-tag (&optional other-win)
+(defun gtags-select-tag (&optional other-win keep-focus)
   "Select a tag in [GTAGS SELECT MODE] and move there."
   (interactive)
   (gtags-push-context)
-  (gtags-select-it nil other-win))
+  (gtags-select-it nil other-win keep-focus))
 
-(defun gtags-select-tag-other-window ()
+(defun gtags-select-tag-other-window (&optional keep-focus)
   "Select a tag in [GTAGS SELECT MODE] and move there in other window."
   (interactive)
-  (gtags-select-tag t))
+  (gtags-select-tag t keep-focus))
+
+(defun gtags-select-tag-other-window-focus ()
+  "Select a tag in [GTAGS SELECT MODE] and move there in other
+window and keep focused in select buffer."
+  (interactive)
+  (gtags-select-tag-other-window t))
 
 (defun gtags-select-tag-by-event (event)
   "Select a tag in [GTAGS SELECT MODE] and move there."
@@ -841,7 +848,7 @@
          (gtags-select-mode)))))))
 
 ;; select a tag line from lines
-(defun gtags-select-it (delete &optional other-win)
+(defun gtags-select-it (delete &optional other-win keep-focus)
   (let (line file)
     ;; get context from current tag line
     (beginning-of-line)
@@ -867,7 +874,9 @@
         (if delete (kill-buffer prev-buffer)))
       (setq gtags-current-buffer (current-buffer))
       (goto-line line)
-      (gtags-mode 1))))
+      (gtags-mode 1)
+      (when keep-focus
+        (other-window 1)))))
 
 ;; make complete list (do nothing)
 (defun gtags-make-complete-list ()
