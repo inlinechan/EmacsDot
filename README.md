@@ -17,11 +17,11 @@
 
 ## Clone and be ready
 
-        $ cd $HOME
-        $ mv .emacs.d .emacs.d.old
-        $ git clone git://github.com/inlinechan/EmacsDot2.git
-        $ ln -s EmacsDot2 .emacs.d
+    $ cd $HOME
+    $ mv .emacs.d .emacs.d.old
+    $ git clone git://github.com/inlinechan/EmacsDot.git
+    $ ln -s EmacsDot .emacs.d
 
 ## Run
 
-        $ emacs                 # Run again with --debug-init if any error
+    $ emacs                 # Run again with --debug-init if any error
