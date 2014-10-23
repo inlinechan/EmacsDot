@@ -88,4 +88,9 @@ See URL `http://www.webkit.org/coding/coding-style.html'."
 
 (global-set-key (kbd "C-<f8>") 'hc/toggle-flycheck)
 
+(add-hook 'flycheck-mode-hook
+          '(lambda ()
+             (setq flycheck-clang-language-standard "c++11")
+             (setq flycheck-clang-warnings '("all" "extra" "no-c++11-extensions"))))
+
 ;;; init-flycheck ends here
