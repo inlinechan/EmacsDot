@@ -23,7 +23,6 @@
         auto-complete-etags
         bookmark+
         cmake-mode
-        color-theme
         color-theme-solarized
         css-mode-simple
         ;; flymake-cursor

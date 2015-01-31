@@ -8,13 +8,6 @@
 ;; color theme
 ;; (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
 
-(if (require 'color-theme nil 'noerror)
-    (progn
-      (color-theme-initialize)
-      (if (window-system)
-          (color-theme-solarized-light)
-        (color-theme-clarity))))
-
 ;; full screen
 (defun fullscreen ()
   (interactive)
