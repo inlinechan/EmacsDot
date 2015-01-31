@@ -300,4 +300,7 @@ vi style of % jumping to matching brace."
 ;; http://stackoverflow.com/a/1680825
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+(when (file-exists-p "~/.local/bin")
+  (setq exec-path (append exec-path '("~/.local/bin"))))
+
 (provide 'hc-general)

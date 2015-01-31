@@ -10,6 +10,9 @@
   :type '(string)
   :group 'js-beautify)
 
+;; Prerequiresite
+;; js-beautify package for python is required - pip install jsbeautifier
+
 (defun js-beautify ()
   "Beautify a region of javascript using the code from jsbeautify.org"
   (interactive)
