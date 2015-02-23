@@ -255,6 +255,14 @@ vi style of % jumping to matching brace."
 ;; which-function-mode
 ;; http://www.emacswiki.org/emacs/WhichFuncMode#WhichFunctionMode
 (which-function-mode)
+(defun which-func-update ()
+  ;; "Update the Which-Function mode display for all windows."
+  (walk-windows 'which-func-update-1 nil 'visible))
+
+(setq mode-line-misc-info
+      ;; We remove Which Function Mode from the mode line, because it's mostly
+      ;; invisible here anyway.
+      (assq-delete-all 'which-func-mode mode-line-misc-info))
 
 (setq mode-line-format (delete (assoc 'which-func-mode
                                       mode-line-format) mode-line-format)
@@ -264,7 +272,12 @@ vi style of % jumping to matching brace."
   (when which-func-mode
     (setq mode-line-format (delete (assoc 'which-func-mode
                                           mode-line-format) mode-line-format)
-          header-line-format which-func-header-line-format)))
+          header-line-format '((which-func-mode ("" which-func-format " "))))))
+
+;; http://stackoverflow.com/a/3669681/2229134
+(setq frame-title-format
+      (list (format "%s %%S: %%j " (system-name))
+        '(buffer-file-name "%f" (dired-directory dired-directory "%b"))))
 
 (dolist (mode (list
                'c++-mode
