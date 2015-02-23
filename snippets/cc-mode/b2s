@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: b2s
+# key: b2s
+# binding: direct-keybinding
+# --
+`(yank)`$0 ? "true" : "false"
