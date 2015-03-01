@@ -43,6 +43,7 @@
         org-octopress
         orglue
         qml-mode
+        rtags
         slime
         yasnippet
         ;; tern - requirement
