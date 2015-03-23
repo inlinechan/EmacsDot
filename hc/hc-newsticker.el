@@ -24,6 +24,6 @@
   (newsticker-start)
   (newsticker-treeview))
 
-(global-set-key (kbd "C-c r") 'hc/start-newsticker)
+;; (global-set-key (kbd "C-c r") 'hc/start-newsticker)
 
 (provide 'hc-newsticker)
