@@ -316,4 +316,18 @@ vi style of % jumping to matching brace."
 (when (file-exists-p "~/.local/bin")
   (setq exec-path (append exec-path '("~/.local/bin"))))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun hc-mktag (dir)
+  (interactive "Dmktag (directory): ")
+  (let ((mktag-script "mktag")
+        (buffer-name "*mktag*")
+        (oldpwd (pwd)))
+    (cd dir)
+    (message "change directory to %s" dir)
+    (and (executable-find mktag-script)
+         (start-process-shell-command "mktag" buffer-name "mktag")
+         (switch-to-buffer buffer-name))
+    (cd oldpwd)))
+
 (provide 'hc-general)
