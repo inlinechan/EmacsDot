@@ -6,4 +6,4 @@
                              (define-key rtags-mode-map "M-p" 'previous-line)))
 
 (add-hook 'c++-mode-hook (lambda ()
-                           (rtags-enable-standard-keybindings c-mode-base-map))
+                           (rtags-enable-standard-keybindings c-mode-base-map)))
