@@ -27,11 +27,47 @@
              (define-key gtags-select-mode-map "\eo" 'gtags-select-tag-other-window-focus)
              (define-key gtags-select-mode-map "\e." 'gtags-select-tag)))
 
+(defun tag-from-here ()
+  (interactive)
+  (if (gtags-get-rootpath)
+      (gtags-find-tag-from-here)
+    (message "No gtags index found")))
+
+(defun find-rtag ()
+  (interactive)
+  (if (gtags-get-rootpath)
+      (gtags-find-rtag)
+    (message "No gtags index found")))
+
 (add-hook 'gtags-mode-hook
           '(lambda ()
              (define-key gtags-mode-map "\e*" 'gtags-pop-stack)
-             (define-key gtags-mode-map "\e." 'gtags-find-tag)
+             (define-key gtags-mode-map "\e." 'tag-from-here)
+             (define-key gtags-mode-map "\e," 'find-rtag)
              (define-key gtags-mode-map "\C-x4." 'gtags-find-tag-other-window)))
 
 (setq gtags-path-style 'relative)
 ;; (setq gtags-auto-update t)
+
+(defun enable-gtags-mode ()
+  (gtags-mode 1))
+
+(add-hook 'c-mode-hook 'enable-gtags-mode)
+(add-hook 'c++-mode-hook 'enable-gtags-mode)
+
+(defun hc-mktag (dir)
+  (interactive "Dmktag (directory): ")
+  (let ((mktag-script "mktag")
+        (buffer-name "*mktag*"))
+    (and (executable-find mktag-script)
+         (start-process-shell-command mktag-script buffer-name mktag-script)
+         (switch-to-buffer buffer-name))))
+
+(defun hc-gtags-update (dir)
+  (interactive "Dglobal -u (directory): ")
+  (let ((global "global"))
+    (and (executable-find global)
+         (call-process global nil t nil "-u"))))
+
+(global-set-key (kbd "C-c t") 'hc-mktag)
+(global-set-key (kbd "C-c u") 'hc-gtags-update)

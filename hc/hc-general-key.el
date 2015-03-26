@@ -24,6 +24,4 @@
 
 (global-set-key (kbd "<f2>") 'shell)
 
-(global-set-key (kbd "C-c t") 'hc-mktag)
-
 (provide 'hc-general-key)

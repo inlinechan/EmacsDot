@@ -294,7 +294,7 @@ vi style of % jumping to matching brace."
                ;; 'c-mode-hook
                'cperl-mode-hook
                'css-mode-hook
-               'emacs-lisp-mode-hook
+               ;; 'emacs-lisp-mode-hook
                'git-commit-mode-hook
                'java-mode-hook
                'js2-mode-hook
@@ -315,19 +315,5 @@ vi style of % jumping to matching brace."
 
 (when (file-exists-p "~/.local/bin")
   (setq exec-path (append exec-path '("~/.local/bin"))))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun hc-mktag (dir)
-  (interactive "Dmktag (directory): ")
-  (let ((mktag-script "mktag")
-        (buffer-name "*mktag*")
-        (oldpwd (pwd)))
-    (cd dir)
-    (message "change directory to %s" dir)
-    (and (executable-find mktag-script)
-         (start-process-shell-command "mktag" buffer-name "mktag")
-         (switch-to-buffer buffer-name))
-    (cd oldpwd)))
 
 (provide 'hc-general)
