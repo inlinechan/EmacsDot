@@ -3,4 +3,4 @@
 # key: logline
 # binding: C-c r l
 # --
-fprintf(stderr, "#### %p `(which-function)`\n", this);
+fprintf(stderr, "#### %10p `(which-function)`\n", this);
