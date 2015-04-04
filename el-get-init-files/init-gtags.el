@@ -30,7 +30,9 @@
 (defun tag-from-here ()
   (interactive)
   (if (gtags-get-rootpath)
-      (gtags-find-tag-from-here)
+      (if current-prefix-arg
+          (gtags-find-tag)
+        (gtags-find-tag-from-here))
     (message "No gtags index found")))
 
 (defun find-rtag ()
