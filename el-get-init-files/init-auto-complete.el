@@ -1,4 +1,5 @@
 (require 'auto-complete-config)
 (ac-config-default)
 (setq ac-auto-start nil)
+(setq ac-use-menu-map t)
 (ac-set-trigger-key "TAB")
