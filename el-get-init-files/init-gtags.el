@@ -73,3 +73,5 @@
 
 (global-set-key (kbd "C-c t") 'hc-mktag)
 (global-set-key (kbd "C-c u") 'hc-gtags-update)
+
+(setq gtags-ignore-case nil)
