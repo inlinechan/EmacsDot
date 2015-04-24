@@ -316,4 +316,34 @@ vi style of % jumping to matching brace."
 (when (file-exists-p "~/.local/bin")
   (setq exec-path (append exec-path '("~/.local/bin"))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Update which-function-mode
+;; http://stackoverflow.com/questions/13426564/how-to-force-a-rescan-in-imenu-by-a-function
+(defun rescan-imenu ()
+  (imenu--menubar-select imenu--rescan-item))
+
+(add-hook 'after-save-hook 'rescan-imenu)
+
+(defvar rescan-timer nil)
+
+(defun rescan-callback ()
+  (when (buffer-modified-p)
+    (rescan-imenu)))
+
+(defun rescan-start ()
+  (interactive)
+  (when (timerp rescan-timer)
+    (cancel-timer rescan-timer))
+  (setq rescan-timer
+          (run-with-timer 1 5 #'rescan-callback)))
+
+(dolist (mode (list
+               'c++-mode-hook
+               'c-mode-hook
+               'emacs-lisp-mode
+               'js2-mode
+               'python-mode
+               'sh-mode))
+  (add-hook mode 'rescan-start))
+
 (provide 'hc-general)
