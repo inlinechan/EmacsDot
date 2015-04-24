@@ -349,4 +349,7 @@ vi style of % jumping to matching brace."
 ;; Use bookmark+
 (require 'bookmark+ nil t)
 
+;; Load sandbox if exist
+(require 'sandbox nil t)
+
 (provide 'hc-general)
