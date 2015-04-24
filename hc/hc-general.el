@@ -346,4 +346,7 @@ vi style of % jumping to matching brace."
                'sh-mode))
   (add-hook mode 'rescan-start))
 
+;; Use bookmark+
+(require 'bookmark+ nil t)
+
 (provide 'hc-general)
