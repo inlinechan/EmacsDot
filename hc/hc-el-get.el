@@ -52,6 +52,7 @@
         tern
         web-mode
         org-reveal
+        multiple-cursors
         ))
 
      ;; Optional packages
