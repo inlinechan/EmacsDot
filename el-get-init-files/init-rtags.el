@@ -6,4 +6,7 @@
                              (define-key rtags-mode-map "M-p" 'previous-line)))
 
 (add-hook 'c++-mode-hook (lambda ()
-                           (rtags-enable-standard-keybindings c-mode-base-map)))
+                           (rtags-enable-standard-keybindings c-mode-base-map)
+                           (define-key c-mode-base-map (kbd "C-=") 'rtags-find-symbol-at-point)
+                           (define-key c-mode-base-map (kbd "C-/") 'rtags-find-references-at-point)
+))
