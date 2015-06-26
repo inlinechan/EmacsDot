@@ -9,8 +9,25 @@
       (goto-char (point-max))
       (eval-print-last-sexp))))
 
+(defun minimal-p (arglist)
+  "Check if has --minimal in the arglist"
+  (let ((args arglist)
+        (found nil))
+    (dolist (arg args)
+      (if (string-match "--minimal" arg)
+          (setq found t)))
+    found))
+
 (eval-after-load 'el-get
   '(progn
+     (setq my:el-get-packages-minimal
+           '(bookmark+
+             color-theme-solarized
+             google-c-style
+             js2-mode
+             magit
+             org-mode
+             markdown-mode))
 
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; el-get :: now set our own packages
@@ -87,6 +104,8 @@
             (loop for src in el-get-sources collect (el-get-source-name src))))
 
      ;; install new packages and init already installed packages
-     (el-get 'sync my:el-get-packages)))
+     (if (minimal-p command-line-args)
+         (el-get 'sync my:el-get-packages-minimal)
+       (el-get 'sync my:el-get-packages))))
 
 (provide 'hc-el-get)
