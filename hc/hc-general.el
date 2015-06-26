@@ -352,4 +352,7 @@ vi style of % jumping to matching brace."
 ;; Load sandbox if exist
 (require 'sandbox nil t)
 
+;; let woman uses wider width
+(setq woman-fill-frame t)
+
 (provide 'hc-general)
