@@ -847,6 +847,22 @@ window and keep focused in select buffer."
               (switch-to-buffer-other-window buffer))
          (gtags-select-mode)))))))
 
+(defun highlight-line-for-a-while (&optional line duration)
+  "highlight line for a while"
+  (when line
+    (goto-line line))
+
+  (let ((overlay-duration (or duration "300 milliseconds"))
+        (overlay (make-overlay
+                  (line-beginning-position)
+                  (line-end-position))))
+    (overlay-put overlay 'font-lock-face '(background-color .  "yellow"))
+    (run-at-time overlay-duration
+                 nil
+                 '(lambda (ol)
+                    (delete-overlay ol))
+                 overlay)))
+
 ;; select a tag line from lines
 (defun gtags-select-it (delete &optional other-win keep-focus)
   (let (line file)
@@ -874,6 +890,7 @@ window and keep focused in select buffer."
         (if delete (kill-buffer prev-buffer)))
       (setq gtags-current-buffer (current-buffer))
       (goto-line line)
+      (highlight-line-for-a-while)
       (gtags-mode 1)
       (when keep-focus
         (other-window 1)))))
