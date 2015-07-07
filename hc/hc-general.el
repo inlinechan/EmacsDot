@@ -155,18 +155,6 @@ vi style of % jumping to matching brace."
               default-tab-width 4
               tab-width 4)
 
-;; c/c++ mode
-
-(defun switch-header-impl()
-  "Switch between header(.h) and impl(.c or .cpp)"
-  (local-set-key (kbd "C-M-p") 'ff-find-other-file))
-
-(dolist (mode (list
-               'c++-mode-hook
-               'c-mode-hook))
-  ;; (add-hook mode 'hc/c-style)
-  (add-hook mode 'switch-header-impl))
-
 (defun hc/add-styles ()
   "Add c/c++ styles"
   (require 'google-c-style)
@@ -354,5 +342,71 @@ vi style of % jumping to matching brace."
 
 ;; let woman uses wider width
 (setq woman-fill-frame t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; switch among impl and headers
+(defun impl-p (base other pp ext)
+  (string-match ext "^\\(cc\\|cpp\\|c\\)$"))
+
+(defun header-p (base other pp ext)
+  (string-match ext "^h$"))
+
+(defun has-no-p-p (base other pp ext)
+  (string-equal pp ""))
+
+(defun has-single-p-p (base other pp ext)
+  (string-equal pp "_p"))
+
+(defun has-double-p-p (base other pp ext)
+  (string-equal pp "_p_p"))
+
+(defun every-p (pred arg)
+  (if (listp pred)
+      (let ((result t)
+            (res nil))
+        (dolist (p pred)
+          (setq result (and result (apply (indirect-function p) arg))))
+        result)
+    (apply (function pred) arg)))
+
+(defun hc-get-next-match (current &optional table)
+  (when (null table)
+    (setq table
+          '(((impl-p) (".h" "_p.h" "_p_p.h"))
+            ((header-p has-no-p-p) ("_p.h" "_p_p.h" ".cpp" ".cc" ".c"))
+            ((header-p has-single-p-p) ("_p_p.h" ".cpp" ".cc" ".c"))
+            ((header-p has-double-p-p) (".cpp" ".cc" ".c")))))
+  (let ((result ()))
+    (dolist (row table)
+      (string-match "^\\(.*?\\)\\(\\(\\(_p\\)*\\).\\([^.]*\\)\\)$" current)
+      (let ((preds (car row))
+            (cands (car (cdr row)))
+            (base (match-string 1 current))
+            (other (match-string 2 current))
+            (pp (match-string 3 current))
+            (ext (match-string 5 current)))
+        ;; (message "hc-get-next-match: %s %s %s %s" base other pp ext)
+        (when (every-p preds (list base other pp ext))
+          (dolist (ext cands)
+            (let ((cand (concat base ext)))
+              (and (file-exists-p cand)
+                   (if (null result)
+                       (setq result (list cand))
+                     (add-to-list 'result cand))))))))
+    (car (nreverse result))))
+
+(defun hc-switch-cc-to-h ()
+  (interactive)
+  (let ((next (hc-get-next-match buffer-file-name)))
+    (when next
+      (find-file next))))
+
+(defun hc-switch-header-impl()
+  (local-set-key (kbd "C-M-p") 'hc-switch-cc-to-h))
+
+(dolist (mode (list
+               'c++-mode-hook
+               'c-mode-hook))
+  (add-hook mode 'hc-switch-header-impl))
 
 (provide 'hc-general)
