@@ -73,7 +73,7 @@
     (and (executable-find global-script)
          (or (cd dir) (error "Fail to change directory to %s" dir))
          (let ((result
-                (benchmark-run-compiled 1
+                (benchmark-run 1
                   (call-process global-script nil buffer-name t "-u"))))
            (message "Took %3.0f ms in running `%s -u in %s'"
                     (* 1000.0 (car result)) global-script dir)))))
