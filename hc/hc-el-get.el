@@ -1,5 +1,7 @@
 (setq el-get-user-package-directory "~/.emacs.d/el-get-init-files/")
 
+(require 'compiler-version)
+
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
       (url-retrieve-synchronously
@@ -60,7 +62,6 @@
         org-octopress
         orglue
         qml-mode
-        rtags
         slime
         yasnippet
         ;; tern - requirement
@@ -75,26 +76,20 @@
      ;; Optional packages
      ;; For example, emacs-w3m is available if w3m exist
      (setq mode-alist
-           '(("cvs"          . emacs-w3m)                 ; w3m
-             ("markdown"     . markdown-mode)             ; markdown
-             ("gnuplot"      . gnuplot-mode)              ; gnuplot
-             ("virtualenv"   . jedi)                      ; virtualenv
-             ("dot"          . graphviz-dot-mode)         ; graphviz
-             ;; https://bitbucket.org/jonwaltman/pydoc-info/
-             ("/usr/share/info/python.info" . pydoc-info) ; pydoc-info(manual install)
+           '(((executable-find "cvs")          . emacs-w3m)                 ; w3m
+             ((executable-find "markdown")     . markdown-mode)             ; markdown
+             ((executable-find "gnuplot")      . gnuplot-mode)              ; gnuplot
+             ((executable-find "virtualenv")   . jedi)                      ; virtualenv
+             ((executable-find "dot")          . graphviz-dot-mode)         ; graphviz
+             ((gcc-version-at-least "4.8")     . rtags)                     ; rtags
+             ((file-exists-p "/usr/share/info/python.info") . pydoc-info)   ; pydoc-info
              ))
 
-     (defun packages-exist-p (package-list)
-       (if (not package-list)
-           t                            ; ignore nil elmt to do and operation
-         (and (executable-find (car package-list))
-              (packages-exist-p (cdr package-list)))))
-
-     (dolist (mode-item mode-alist)
-       (when
-           (or (and (car mode-item) (packages-exist-p (split-string (car mode-item))))
-               (file-exists-p (car mode-item)))
-         (add-to-list 'my:el-get-packages (cdr mode-item))))
+     (dolist (item mode-alist)
+       (let ((conds (car item))
+             (mode (cdr item)))
+         (when (apply 'funcall conds)
+           (add-to-list 'my:el-get-packages mode))))
 
      (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 
