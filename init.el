@@ -19,6 +19,8 @@
 
 ;;; Commentary:
 
+;;; Code:
+
 (require 'cl)                           ; common lisp goodies, loop
 
 (add-to-list 'load-path "~/.emacs.d")
@@ -38,3 +40,6 @@
 (require 'hc-gnus)
 (require 'hc-org)
 (require 'js-beautify)
+(require 'hc-webos)
+
+;;; init ends here
