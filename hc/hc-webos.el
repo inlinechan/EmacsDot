@@ -13,25 +13,22 @@
 (defvar webos-find-recipes-args-history nil)
 
 (defun webos-find-recipe-candidates ()
+  "Find bitbake recipe candidates in the subdirectories recursively."
   (let ((wtop (string-trim-right (shell-command-to-string "wtop do_not_cd")))
-        ;; (find-command "find meta\* -type f -regex \".\*\(bb\|bbclass|\bbappend\|inc\)$\" | awk -F'/' '{print $NF}'")
-        (find-command "find meta\* -type f -regex \".*\\(bb\\|bbclass\\|bbappend\\|inc\\)$\" | awk -F'/' '{print \$NF}'")
-        )
+        (find-command (concat "find meta\* -type f -regex "
+                              "\".*\\(bb\\|bbclass\\|bbappend\\|inc\\)$\" "
+                              "| awk -F'/' '{print \$NF}'")))
     (cd wtop)
-    (split-string (shell-command-to-string find-command))
-    ))
+    (if webos-find-recipes-args-history
+        webos-find-recipes-args-history
+      (setq webos-find-recipes-args-history
+            (split-string (shell-command-to-string find-command))))))
 
 (defun webos-find-recipes (pattern)
-  ;; (interactive "sPattern: ")
-  ;; (interactive (list (read-string "Pattern: " webos-find-recipes-args
-  ;;                                 '(webos-find-recipes-args-history . 1))))
+  "Find bitbake recipes with matching PATTERN."
   (interactive
    (list (completing-read "recipe: " (webos-find-recipe-candidates))))
 
-  (setq webos-find-recipes-args-history
-        (webos-find-recipe-candidates))
-
-  ;; find meta* -type f -regex ".*\(bb\|bbclass|\bbappend\|inc\)$" | awk -F'/' '{print $NF}'
   (let* ((buffer-name "*Find*")
          (wtop (string-trim-right (shell-command-to-string "wtop do_not_cd")))
          (recipe-buffer (get-buffer-create buffer-name))
@@ -61,13 +58,14 @@
           (cd wtop)
           (setq find-command (concat "find meta\* -type f -ls | egrep \"(.*/)"
                                      pattern
-                                     "[^/]*$\""))
+                                     "$\""))
           (shell-command find-command (current-buffer) "*Message*")
 
           (dired-mode dir (cdr find-ls-option))
           (let ((map (make-sparse-keymap)))
             (set-keymap-parent map (current-local-map))
             (define-key map "\C-c\C-k" 'kill-find)
+            (define-key map "g" nil)
             (use-local-map map))
           (make-local-variable 'dired-sort-inhibit)
 
