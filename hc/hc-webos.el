@@ -14,7 +14,6 @@
 
 (defun webos-top (path)
   "Return wtop from PATH."
-  (message "in webos-top")
   (let ((top-pattern "^\\(.*build-[^/]*\\).*$"))
     (if (string-match top-pattern path)
         (match-string 1 path)
@@ -55,7 +54,6 @@
   (interactive
    (list (completing-read "recipe: " (webos-find-recipe-candidates))))
 
-  (message "default-directory: %s" default-directory)
   (let* ((buffer-name "*Find*")
          (wtop (webos-top default-directory))
          (recipe-buffer (get-buffer-create buffer-name))
@@ -124,6 +122,58 @@
           ;;   (move-marker (process-mark proc) 1 (current-buffer)))
           (setq mode-line-process '(":%s")))
       (message "Not in webos directory"))))
+
+(defun webos-cd-candidates ()
+  "`find-file' to DIR."
+  (let ((wtop (webos-top default-directory))
+        (buffer (get-buffer-create "*webos-cd*"))
+        (dirs nil)
+        (command "ls BUILD\*/work/\* | grep -v \":$\" | sed \"/^\s\*$/d\""))
+    (if wtop
+        (progn
+          (with-current-buffer buffer
+            (erase-buffer))
+
+          (cd wtop)
+          (if (= 0 (call-process-shell-command command nil buffer))
+              (progn
+                (with-current-buffer buffer
+                  (setq dirs (split-string (buffer-string))))
+                (kill-buffer buffer)
+                dirs)
+              nil))
+      (message "Not in webos directory"))))
+
+(defun webos-find-module-directory (target)
+  "Find module directory TARGET from webos-top."
+  (let ((wtop (webos-top default-directory))
+        (found nil))
+    (dolist (build (directory-files wtop t))
+      ;; (message "build: %s" build))))
+      (setq case-fold-search nil)
+      (when (and (file-directory-p build)
+                 (string-match "^BUILD" (car (last (split-string build "/")))))
+        (let ((work (concat build "/work")))
+          ;; (message "work: %s" work))))))
+          (dolist (arch (directory-files work t))
+            (when (directory-files arch t)
+              (dolist (module (directory-files arch t))
+                (when (and (file-directory-p module)
+                           (string-match (concat ".*" target "$") module))
+                  (setq found module))))))))
+    found))
+
+(defun webos-cd (module)
+  "`find-file' MODULE directory in webos."
+  (interactive
+   (list (completing-read "module: " (webos-cd-candidates))))
+
+  (let ((wtop (webos-top default-directory)))
+    (if wtop
+        (find-file (webos-find-module-directory module))
+      (message "Not in webos directory"))))
+
+(global-set-key (kbd "C-x C-g") 'webos-cd)
 
 (setq auto-mode-alist
       (append
