@@ -12,52 +12,56 @@
 (defvar webos-find-recipes-cache nil
   "Cache the result of \\[webos-find-recipe-candidates].")
 
-(defun wtop (path)
+(defun webos-top (path)
   "Return wtop from PATH."
+  (message "in webos-top")
   (let ((top-pattern "^\\(.*build-[^/]*\\).*$"))
     (if (string-match top-pattern path)
-      (match-string 1 path)
-    nil)))
+        (match-string 1 path)
+      nil)))
 
 (defun webos-find-recipe-candidates ()
   "Find bitbake recipe candidates in the subdirectories recursively."
-  (let ((wtop (string-trim-right (shell-command-to-string "wtop do_not_cd")))
+  (let ((wtop (webos-top default-directory))
         (buffer (get-buffer-create "*webos-find*"))
         (files nil)
         (find-command (concat "find meta\* -type f -regex "
                               "\".*\\(bb\\|bbclass\\|bbappend\\|inc\\)$\" ")))
-    (cd wtop)
-    (if (and (not (string-empty-p wtop)) webos-find-recipes-cache)
-        webos-find-recipes-cache
-      (progn
-        (with-current-buffer buffer
-          (erase-buffer))
+    (if wtop
+        (if webos-find-recipes-cache
+            webos-find-recipes-cache
+          (progn
+            (with-current-buffer buffer
+              (erase-buffer))
 
-        (if (= 0 (call-process-shell-command
-                  ;; (mapconcat 'shell-quote-argument (split-string find-command) " ")
-                  find-command
-                  nil buffer))
-            (progn
-              (with-current-buffer buffer
-                (setq files (split-string (buffer-string))))
-              (setq webos-find-recipes-cache
-                    (mapcar #'(lambda (path)
-                                (let ((parts (split-string path "/")))
-                                  (last parts)))
-                            files)))
-          nil)))))
+            (cd wtop)
+            (if (= 0 (call-process-shell-command
+                      find-command
+                      nil buffer))
+                (progn
+                  (with-current-buffer buffer
+                    (setq files (split-string (buffer-string))))
+                  (kill-buffer buffer)
+                  (setq webos-find-recipes-cache
+                        (mapcar #'(lambda (path)
+                                    (let ((parts (split-string path "/")))
+                                      (last parts)))
+                                files)))
+              nil)))
+      nil)))
 
 (defun webos-find-recipes (pattern)
   "Find bitbake recipes with matching PATTERN."
   (interactive
    (list (completing-read "recipe: " (webos-find-recipe-candidates))))
 
+  (message "default-directory: %s" default-directory)
   (let* ((buffer-name "*Find*")
-         (wtop (string-trim-right (shell-command-to-string "wtop do_not_cd")))
+         (wtop (webos-top default-directory))
          (recipe-buffer (get-buffer-create buffer-name))
          (find-command nil)
          (dir (expand-file-name wtop)))
-    (if (and (not (string-empty-p wtop)) (string-match wtop (expand-file-name default-directory)))
+    (if (and wtop (string-match wtop default-directory))
         (progn
           (switch-to-buffer (get-buffer-create buffer-name))
 
@@ -118,8 +122,7 @@
           ;;   (set-process-sentinel proc (function find-dired-sentinel))
           ;;   ;; Initialize the process marker; it is used by the filter.
           ;;   (move-marker (process-mark proc) 1 (current-buffer)))
-          (setq mode-line-process '(":%s"))
-          )
+          (setq mode-line-process '(":%s")))
       (message "Not in webos directory"))))
 
 (setq auto-mode-alist
