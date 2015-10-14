@@ -9,20 +9,43 @@
 (defvar webos-find-recipes-args nil
   "Last arguments given to `find' by \\[webos-find-recipes].")
 
-;; History of webos-find-args values entered in the minibuffer.
-(defvar webos-find-recipes-args-history nil)
+(defvar webos-find-recipes-cache nil
+  "Cache the result of \\[webos-find-recipe-candidates].")
+
+(defun wtop (path)
+  "Return wtop from PATH."
+  (let ((top-pattern "^\\(.*build-[^/]*\\).*$"))
+    (if (string-match top-pattern path)
+      (match-string 1 path)
+    nil)))
 
 (defun webos-find-recipe-candidates ()
   "Find bitbake recipe candidates in the subdirectories recursively."
   (let ((wtop (string-trim-right (shell-command-to-string "wtop do_not_cd")))
+        (buffer (get-buffer-create "*webos-find*"))
+        (files nil)
         (find-command (concat "find meta\* -type f -regex "
-                              "\".*\\(bb\\|bbclass\\|bbappend\\|inc\\)$\" "
-                              "| awk -F'/' '{print \$NF}'")))
+                              "\".*\\(bb\\|bbclass\\|bbappend\\|inc\\)$\" ")))
     (cd wtop)
-    (if webos-find-recipes-args-history
-        webos-find-recipes-args-history
-      (setq webos-find-recipes-args-history
-            (split-string (shell-command-to-string find-command))))))
+    (if (and (not (string-empty-p wtop)) webos-find-recipes-cache)
+        webos-find-recipes-cache
+      (progn
+        (with-current-buffer buffer
+          (erase-buffer))
+
+        (if (= 0 (call-process-shell-command
+                  ;; (mapconcat 'shell-quote-argument (split-string find-command) " ")
+                  find-command
+                  nil buffer))
+            (progn
+              (with-current-buffer buffer
+                (setq files (split-string (buffer-string))))
+              (setq webos-find-recipes-cache
+                    (mapcar #'(lambda (path)
+                                (let ((parts (split-string path "/")))
+                                  (last parts)))
+                            files)))
+          nil)))))
 
 (defun webos-find-recipes (pattern)
   "Find bitbake recipes with matching PATTERN."
