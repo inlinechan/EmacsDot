@@ -23,7 +23,7 @@
 
 (require 'cl)                           ; common lisp goodies, loop
 
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (add-to-list 'load-path "~/.emacs.d/hc")
 
