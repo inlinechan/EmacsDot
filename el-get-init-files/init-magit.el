@@ -5,6 +5,5 @@
 (global-set-key (kbd "C-c s") 'magit-status)
 
 (eval-after-load 'magit
-  '(progn
-     (when (not window-system)
-       (set-face-background 'magit-log-head-label-tags "Grey85"))))
+  (when (and (not window-system) (string-match "1\\.4*" (magit-version)))
+    (set-face-background 'magit-log-head-label-tags "Grey85")))

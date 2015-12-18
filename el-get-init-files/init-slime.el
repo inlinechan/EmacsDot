@@ -11,5 +11,7 @@
             (set (make-local-variable 'lisp-indent-function)
                  'common-lisp-indent-function)))
 
-(slime-setup-command-hooks)
+(when (functionp 'slime-setup-command-hooks)
+  (slime-setup-command-hooks))
+
 (slime-setup '(slime-autodoc))
