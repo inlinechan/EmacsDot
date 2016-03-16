@@ -18,4 +18,10 @@
 ;; (add-to-list 'default-frame-alist
 ;;          '(font . "DejaVu Sans Mono-10"))
 
+(when (and window-system (eq system-type 'darwin))
+  (set-frame-size (selected-frame) 100 60)
+  ;; (text-scale-increase 1)
+  ;; (set-frame-font "Menlo-14")
+  (set-frame-font "Ubuntu-Mono-14"))
+
 (provide 'hc-ui)
