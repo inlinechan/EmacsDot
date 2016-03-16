@@ -51,7 +51,7 @@
 ; Use fundamental mode when editing plantuml blocks with C-c '
 (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
 
-(setq org-agenda-files (quote ("~/Documents/org")))
+(setq org-agenda-files (quote "~/Documents/org/todo.org.gpg"))
 
 (setq org-src-fontify-natively t)
 
@@ -79,6 +79,22 @@
     (message "ERR: not in Org mode")
     (ding))))
 
+;; (setq org-todo-keywords
+;;       '((sequence "TODO(t)" "STARTED(s@/!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)" "DEFERRED(x@)")))
+
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/Documents/org/todo.org.gpg" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("p" "Personal" entry (file+headline "~/Documents/org/todo.org.gpg" "Personal")
+         "* TODO %?\n  %i\n  %a")
+        ("w" "WAMTEST" entry (file+headline "~/Documents/org/todo.org.gpg" "WAMTEST")
+         "* TODO %?\n  %i\n  %a")))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (set-fill-column 80)))
+
+(define-key global-map "\C-cc" 'org-capture)
+
 (provide 'hc-org)
 ;;; hc-org ends here
-
