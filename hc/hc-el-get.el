@@ -43,6 +43,7 @@
         bookmark+
         cmake-mode
         color-theme-solarized
+        clang-format
         css-mode-simple
         ;; flymake-cursor
         flycheck
