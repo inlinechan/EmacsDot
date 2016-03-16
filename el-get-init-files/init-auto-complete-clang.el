@@ -48,3 +48,4 @@
                 (split-string include-path-string))))))
 
 (setq ac-clang-flags (include-path-list-for-clang-from-g++))
+(add-to-list 'ac-clang-flags "-std=c++11")
