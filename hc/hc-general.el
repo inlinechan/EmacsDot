@@ -409,4 +409,9 @@ vi style of % jumping to matching brace."
                'c-mode-hook))
   (add-hook mode 'hc-switch-header-impl))
 
+(when (eq system-type 'darwin)
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (setq exec-path (append exec-path '("/usr/local/bin"))))
+
+
 (provide 'hc-general)
