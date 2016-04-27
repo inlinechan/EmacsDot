@@ -37,8 +37,8 @@
       my:el-get-packages
       '(auto-complete
         auto-complete-clang
-        auto-complete-css
-        auto-complete-emacs-lisp
+        ;; auto-complete-css
+        ;; auto-complete-emacs-lisp
         auto-complete-etags
         bookmark+
         cmake-mode
@@ -48,7 +48,7 @@
         ;; flymake-cursor
         flycheck
         highlight-chars
-        gdict
+        ;; gdict
         ;; ggtags
         google-c-style
         jquery-doc
@@ -60,7 +60,7 @@
         pos-tip
         psvn
         qmake-mode
-        org-octopress
+        ;; org-octopress
         orglue
         qml-mode
         slime
@@ -82,7 +82,7 @@
              ((executable-find "gnuplot")      . gnuplot-mode)              ; gnuplot
              ((executable-find "virtualenv")   . jedi)                      ; virtualenv
              ((executable-find "dot")          . graphviz-dot-mode)         ; graphviz
-             ((gcc-version-at-least "4.8")     . rtags)                     ; rtags
+             ;; ((gcc-version-at-least "4.8")     . rtags)                     ; rtags
              ((file-exists-p "/usr/share/info/python.info") . pydoc-info)   ; pydoc-info
              ))
 

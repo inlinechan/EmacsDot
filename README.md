@@ -11,6 +11,7 @@
         $ sudo apt-get install w3m cvs                # for w3m newsticker
         # for org-mode to export to pdf
         $ sudo apt-get install texlive texlive-latex-base texlive-latex-extra
+        $ sudo apt-get install npm                    # for ternjs
 1. Make sure that you're connected on the internet
 1. Sign-in github.com in your web-browser to avoid getting html error
    page instead of .el files 
