@@ -46,6 +46,7 @@
         clang-format
         css-mode-simple
         ;; flymake-cursor
+        emmet-mode
         flycheck
         highlight-chars
         ;; gdict
