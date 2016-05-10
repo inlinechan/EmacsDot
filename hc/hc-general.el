@@ -163,7 +163,6 @@ vi style of % jumping to matching brace."
                       (c-basic-offset . 4)
                       (c-offsets-alist . ((substatement-open 0)
                                           (arglist-cont-nonempty . +)
-                                          (c-argdecl-indent 0)
                                           ))))
 
   (c-add-style "webkit" '("google"
