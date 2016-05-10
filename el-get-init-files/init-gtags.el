@@ -78,6 +78,50 @@
            (message "Took %3.0f ms in running `%s -u in %s'"
                     (* 1000.0 (car result)) global-script dir)))))
 
+(defun hc-gtags-impl-p (name)
+  (string-match "\\(cc\\|cpp\\)$" name))
+
+(defun hc-gtags-header-p (name)
+  (string-match "\\(h\\|hpp\\)$" name))
+
+(defun hc-gtags-get-counter (name)
+  (cond ((hc-gtags-impl-p name)
+         (concat (file-name-directory name) (file-name-base name) ".h"))
+        ((hc-gtags-header-p name)
+         (concat (file-name-directory name) (file-name-base name) ".cpp"))
+        (t nil)))
+
+(defun hc-gtags-get-counter-candidates (name)
+  (with-temp-buffer
+    ;; (call-process gtags-global-command nil t nil "-P" (file-name-base name))
+    (call-process gtags-global-command nil t nil "-P" (file-name-nondirectory (hc-gtags-get-counter name)))
+    (split-string (buffer-string) "\n" t)))
+
+(defun hc-gtags-get-next-match (name)
+  (interactive)
+  (and (gtags-get-rootpath) (hc-gtags-get-counter-candidates name)))
+
+(defun hc-gtags-switch-cc-to-h ()
+  (interactive)
+  (let ((basic (hc-get-next-match (buffer-file-name)))
+        (gtags (hc-gtags-get-next-match (buffer-file-name))))
+    (when basic
+      (find-file basic))
+    (when gtags
+      (if (= 1 (length gtags))
+          (find-file (car gtags))
+        (gtags-goto-tag (concat "/" (file-name-nondirectory (car gtags))) "P"))
+      )))
+
+(defun hc-gtags-switch-header-impl()
+  (local-unset-key (kbd "C-M-p"))
+  (local-set-key (kbd "C-M-p") 'hc-gtags-switch-cc-to-h))
+
+(dolist (mode (list
+               'c++-mode-hook
+               'c-mode-hook))
+  (add-hook mode 'hc-gtags-switch-header-impl))
+
 (global-set-key (kbd "C-c t") 'hc-mktag)
 (global-set-key (kbd "C-c u") 'hc-gtags-update)
 
