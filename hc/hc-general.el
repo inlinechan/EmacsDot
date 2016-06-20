@@ -174,6 +174,17 @@ vi style of % jumping to matching brace."
                                               (statement-cont . +)
                                               (arglist-cont-nonempty . +)
                                               (topmost-intro . 0)))))
+
+  ;; https://github.com/llvm-mirror/llvm/blob/master/utils/emacs/emacs.el
+  (c-add-style "llvm.org"
+               '("gnu"
+                 (fill-column . 80)
+                 (c++-indent-level . 2)
+                 (c-basic-offset . 2)
+                 (indent-tabs-mode . nil)
+                 (c-offsets-alist . ((arglist-intro . ++)
+                                     (innamespace . 0)
+                                     (member-init-intro . ++)))))
 )
 
 (defun hc/decide-c-mode-style ()
@@ -195,8 +206,11 @@ vi style of % jumping to matching brace."
      ((or (string-match "glib" buffer-file-name)
           (string-match "gtk" buffer-file-name))
       (c-set-style "gnu"))
+     ((or (string-match "llvm" buffer-file-name)
+          (string-match "clang" buffer-file-name))
+      (c-set-style "llvm.org"))
      (t
-      (c-set-style "hc")))))
+      (c-set-style "google")))))
 
 (add-hook 'c-mode-common-hook 'hc/add-styles)
 (add-hook 'c-mode-common-hook 'hc/decide-c-mode-style t)
