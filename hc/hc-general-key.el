@@ -24,4 +24,7 @@
 
 (global-set-key (kbd "<f2>") 'shell)
 
+;; Minimize current buffer's height
+(global-set-key [f7] (kbd "C-x + C-u - 1 6 C-x ^"))
+
 (provide 'hc-general-key)
