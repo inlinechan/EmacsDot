@@ -436,7 +436,8 @@ vi style of % jumping to matching brace."
   (setq exec-path (append exec-path '("/usr/local/bin"))))
 
 (add-hook 'python-mode-hook #'(lambda ()
-                                (when (string-match "gypi?$" "base.gyp")
+                                (when (string-match "gypi?$" buffer-file-name)
+                                  (make-local-variable 'python-indent)
                                   (setq python-indent 2))))
 
 (provide 'hc-general)
