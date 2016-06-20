@@ -440,4 +440,9 @@ vi style of % jumping to matching brace."
                                   (make-local-variable 'python-indent)
                                   (setq python-indent 2))))
 
+(let ((org-jekyll-publish-path "~/Documents/org-jekyll/lisp"))
+  (when (file-directory-p org-jekyll-publish-path)
+    (add-to-list 'load-path org-jekyll-publish-path)
+    (require 'org-jekyll-publish nil t)))
+
 (provide 'hc-general)
