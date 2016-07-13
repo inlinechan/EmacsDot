@@ -445,4 +445,23 @@ vi style of % jumping to matching brace."
     (add-to-list 'load-path org-jekyll-publish-path)
     (require 'org-jekyll-publish nil t)))
 
+;; If non-nil, Dired tries to guess a default target directory. AWESOME
+;; (setq dired-dwim-target t)
+
+;; http://joelmccracken.github.io/entries/switching-between-term-mode-and-line-mode-in-emacs-term/
+(require 'term)
+
+(defun jnm/term-toggle-mode ()
+  "Toggles term between line mode and char mode"
+  (interactive)
+  (if (term-in-line-mode)
+      (term-char-mode)
+    (term-line-mode)))
+
+(define-key term-mode-map (kbd "C-c C-j") 'jnm/term-toggle-mode)
+(define-key term-mode-map (kbd "C-c C-k") 'jnm/term-toggle-mode)
+
+(define-key term-raw-map (kbd "C-c C-j") 'jnm/term-toggle-mode)
+(define-key term-raw-map (kbd "C-c C-k") 'jnm/term-toggle-mode)
+
 (provide 'hc-general)
