@@ -105,13 +105,12 @@
   (interactive)
   (let ((basic (hc-get-next-match (buffer-file-name)))
         (gtags (hc-gtags-get-next-match (buffer-file-name))))
-    (when basic
-      (find-file basic))
-    (when gtags
-      (if (= 1 (length gtags))
-          (find-file (car gtags))
-        (gtags-goto-tag (concat "/" (file-name-nondirectory (car gtags))) "P"))
-      )))
+    (cond (basic
+           (find-file basic))
+          (gtags
+           (if (= 1 (length gtags))
+               (find-file (car gtags))
+             (gtags-goto-tag (concat "/" (file-name-nondirectory (car gtags))) "P"))))))
 
 (defun hc-gtags-switch-header-impl()
   (local-unset-key (kbd "C-M-p"))
