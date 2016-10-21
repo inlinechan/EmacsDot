@@ -24,7 +24,6 @@
   '(progn
      (setq my:el-get-packages-minimal
            '(bookmark+
-             color-theme-solarized
              google-c-style
              js2-mode
              magit
@@ -35,15 +34,10 @@
      ;; el-get :: now set our own packages
      (setq
       my:el-get-packages
-      '(auto-complete
-        auto-complete-clang
-        ;; auto-complete-css
-        ;; auto-complete-emacs-lisp
-        auto-complete-etags
+      '(
         bookmark+
         company-mode
         cmake-mode
-        color-theme-solarized
         clang-format
         css-mode-simple
         ;; flymake-cursor
@@ -64,7 +58,6 @@
         qmake-mode
         ;; org-octopress
         orglue
-        qml-mode
         slime
         yasnippet
         ;; tern - requirement
