@@ -49,6 +49,10 @@
         google-c-style
         jquery-doc
         js2-mode
+        ;; json - requirement
+        ;; http://stackoverflow.com/a/39085903/2229134
+        ;; sudo npm install jsonlint -g
+        json-mode
         magit
         org-mode
         popup
