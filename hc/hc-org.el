@@ -96,5 +96,15 @@
 
 (define-key global-map "\C-cc" 'org-capture)
 
+(defun my-org-inline-css-hook (exporter)
+  "Insert custom inline css"
+  (when (eq exporter 'html)
+    (let ((my-pre-bg (face-background 'default)))
+      (setq org-html-head-include-default-style nil)
+      (setq org-html-head
+            (format "<style type=\"text/css\">\n pre.src { background-color: %s;}</style>\n" my-pre-bg)))))
+
+(add-hook 'org-export-before-processing-hook 'my-org-inline-css-hook)
+
 (provide 'hc-org)
 ;;; hc-org ends here
