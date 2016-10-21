@@ -24,4 +24,6 @@
   ;; (set-frame-font "Menlo-14")
   (set-frame-font "Ubuntu-Mono-14"))
 
+(load-theme 'tango-dark)
+
 (provide 'hc-ui)
