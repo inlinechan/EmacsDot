@@ -2,8 +2,8 @@
 (setq inhibit-startup-message t)
 
 ;; hide toolbar & menubar
-;;    (tool-bar-mode -1)
-;;    (menu-bar-mode -1)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
 
 ;; color theme
 ;; (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
