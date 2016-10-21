@@ -41,6 +41,7 @@
         ;; auto-complete-emacs-lisp
         auto-complete-etags
         bookmark+
+        company-mode
         cmake-mode
         color-theme-solarized
         clang-format
