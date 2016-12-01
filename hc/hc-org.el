@@ -51,7 +51,8 @@
 ; Use fundamental mode when editing plantuml blocks with C-c '
 (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
 
-(setq org-agenda-files (quote "~/Documents/org/todo.org.gpg"))
+(setq hc/org-todo-file "~/Documents/org/todo.org.gpg")
+(setq org-agenda-files (list hc/org-todo-file))
 
 (setq org-src-fontify-natively t)
 
@@ -79,8 +80,8 @@
     (message "ERR: not in Org mode")
     (ding))))
 
-;; (setq org-todo-keywords
-;;       '((sequence "TODO(t)" "STARTED(s@/!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)" "DEFERRED(x@)")))
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "STARTED(s@/!)" "WAITING(w@/!)" "|" "DONE(d!)" "CANCELED(c@)" "DEFERRED(x@)")))
 
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/Documents/org/todo.org.gpg" "Tasks")
@@ -105,6 +106,57 @@
             (format "<style type=\"text/css\">\n pre.src { background-color: %s;}</style>\n" my-pre-bg)))))
 
 (add-hook 'org-export-before-processing-hook 'my-org-inline-css-hook)
+
+(setq org-clock-idle-time 30)
+
+(defvar hc/org-clock-clocking-in nil
+  "Indicate it's between org-clock-in-prepare-hook and org-clock-in-hook.")
+
+;; http://sachachua.com/blog/2007/12/clocking-time-with-emacs-org/
+;; state, last-state => org-state, org-last-state
+(defun wicked/org-clock-in-if-starting ()
+  "Clock in when the task is marked STARTED."
+  (when (and (string= org-state "STARTED")
+             (not (string= org-last-state org-state)))
+    (when (not hc/org-clock-clocking-in)
+      (org-clock-in))))
+
+(add-hook 'org-after-todo-state-change-hook
+          'wicked/org-clock-in-if-starting)
+
+(defun wicked/org-clock-out-if-waiting ()
+  "Clock out when the task is marked WAITING."
+  (when (and (string= org-state "WAITING")
+             (equal (marker-buffer org-clock-marker) (current-buffer))
+             (< (point) org-clock-marker)
+             (> (save-excursion (outline-next-heading) (point))
+                org-clock-marker)
+             (not (string= org-last-state org-state)))
+    (org-clock-out)))
+
+(add-hook 'org-after-todo-state-change-hook
+          'wicked/org-clock-out-if-waiting)
+
+(add-hook 'org-clock-in-prepare-hook
+          #'(lambda ()
+              (setq hc/org-clock-clocking-in t)))
+
+(add-hook 'org-clock-in-hook
+          #'(lambda ()
+              (setq hc/org-clock-clocking-in nil)))
+
+(setq org-clock-in-switch-to-state
+      #'(lambda (state)
+          (when (not (string= state "STARTED"))
+            "STARTED")))
+
+(setq org-clock-out-switch-to-state
+      #'(lambda (state)
+          (when (not (string= state "WAITING"))
+            "WAITING")))
+
+(global-set-key (kbd "<f12>") 'org-clock-goto)
+(global-set-key (kbd "C-<f12>") 'org-clock-in)
 
 (provide 'hc-org)
 ;;; hc-org ends here
