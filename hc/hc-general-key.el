@@ -1,6 +1,9 @@
 ;;(global-set-key (kbd "C-c y") 'clipboard-yank)
-(global-set-key (kbd "C-c c") 'compile)
-(global-set-key (kbd "<f9>") 'compile)
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (define-key c-mode-base-map (kbd "<f9>") 'compile)))
+
 (global-set-key (kbd "C-c r y") 'comment-region)
 (global-set-key (kbd "C-c r u") 'uncomment-region)
 (global-set-key (kbd "M-g") 'goto-line)
@@ -15,7 +18,6 @@
 (global-set-key (kbd "C-c g g") 'grep-find)
 
 (global-set-key (kbd "C-c C-k") 'isearch-forward-at-point)
-(global-set-key (kbd "C-M-o") 'other-window)
 
 (global-set-key (kbd "C-M-o") 'other-window)
 (global-set-key (kbd "C-M-m") 'other-window-prev)
