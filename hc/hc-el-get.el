@@ -39,11 +39,11 @@
         company-mode
         cmake-mode
         clang-format
-        css-mode-simple
+        ;; css-mode-simple
         ;; flymake-cursor
         emmet-mode
         flycheck
-        highlight-chars
+        ;; highlight-chars
         ;; gdict
         ;; ggtags
         google-c-style
@@ -56,7 +56,7 @@
         magit
         org-mode
         popup
-        popup-pos-tip
+        ;; popup-pos-tip
         pos-tip
         psvn
         qmake-mode
@@ -82,7 +82,7 @@
              ((executable-find "virtualenv")   . jedi)                      ; virtualenv
              ((executable-find "dot")          . graphviz-dot-mode)         ; graphviz
              ;; ((gcc-version-at-least "4.8")     . rtags)                     ; rtags
-             ((file-exists-p "/usr/share/info/python.info") . pydoc-info)   ; pydoc-info
+             ;; ((file-exists-p "/usr/share/info/python.info") . pydoc-info)   ; pydoc-info
              ))
 
      (dolist (item mode-alist)
