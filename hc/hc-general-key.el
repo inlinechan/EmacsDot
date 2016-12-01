@@ -24,11 +24,15 @@
 
 (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 
-(global-set-key (kbd "<f2>") 'shell)
+(define-prefix-command 'hc/key-map)
+
+(define-key hc/key-map (kbd "<f2>") 'hc/key-map)
+
+(define-key hc/key-map (kbd "0") 'shell)
+(define-key hc/key-map (kbd "9") 'ansi-term)
+(global-set-key (kbd "<f2>") hc/key-map)
 
 ;; Minimize current buffer's height
 (global-set-key [f7] (kbd "C-x + C-u - 1 6 C-x ^"))
-
-(global-set-key (kbd "<f3>") 'term)
 
 (provide 'hc-general-key)
