@@ -12,12 +12,18 @@
 (defvar webos-find-recipes-cache nil
   "Cache the result of \\[webos-find-recipe-candidates].")
 
-(defun webos-top (path)
-  "Return wtop from PATH."
-  (let ((top-pattern "^\\(.*build-[^/]*\\).*$"))
+(defun webos-top (path &optional strict)
+  "Return wtop from PATH.
+
+When optional STRICT is non-nil then do not try to find wtop directory from its SIBLING."
+  (let* ((parent-dir (file-name-directory (directory-file-name (magit-toplevel path))))
+         (top-pattern "^\\(.*build-[^/]*\\).*$")
+         (candidates (directory-files parent-dir 'full top-pattern)))
     (if (string-match top-pattern path)
         (match-string 1 path)
-      nil)))
+      (if (and (not strict) (listp candidates))
+          (car candidates)
+        nil))))
 
 (defun webos-find-recipe-candidates ()
   "Find bitbake recipe candidates in the subdirectories recursively."
@@ -54,7 +60,7 @@
   (interactive
    (list (completing-read "recipe: " (webos-find-recipe-candidates))))
 
-  (let* ((buffer-name "*Find*")
+  (let* ((buffer-name (concat "*Find*" " - " pattern))
          (wtop (webos-top default-directory))
          (recipe-buffer (get-buffer-create buffer-name))
          (find-command nil)
