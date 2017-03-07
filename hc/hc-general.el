@@ -464,4 +464,25 @@ vi style of % jumping to matching brace."
 (define-key term-raw-map (kbd "C-c C-j") 'jnm/term-toggle-mode)
 (define-key term-raw-map (kbd "C-c C-k") 'jnm/term-toggle-mode)
 
+
+(defun hc/search-class-decl ()
+  (interactive)
+
+  ;; (let ((pattern "class ?[a-za-z0-9_]* ?[a-za-z0-9_]+"))
+  ;; (let ((pattern "^\'*class ?\\([A-Z_0-9]+\\)? ?[A-Za-z0-9_]+"))
+  (let ((pattern "^\'*class ?\\([A-Z_0-9]+\\)? ?[A-Za-z0-9_]+[^;][ :]*[A-Za-z0-9_ ]+{? *
+"))
+    (isearch-forward-regexp nil 1)
+    (setq isearch-regexp t
+          isearch-string pattern
+          isearch-yank-flag t)
+    (isearch-search-and-update)))
+
+(add-hook 'c-mode-common-hook
+          #'(lambda ()
+              (setq show-trailing-whitespace t)))
+
+(add-hook 'js2-mode-hook #'lambda()
+          (setq js2-basic-offset 2))
+
 (provide 'hc-general)
