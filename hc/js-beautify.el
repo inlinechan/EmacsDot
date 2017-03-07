@@ -25,9 +25,8 @@
           (mark-defun))
         (shell-command-on-region (point)
                                  (mark)
-                                 (concat "python "
-                                         js-beautify-path
-                                         " --stdin "
+                                 (concat js-beautify-path
+                                         " "
                                          js-beautify-args)
                                  nil t)
         (goto-char orig-point)))))
